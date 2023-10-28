@@ -114,7 +114,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         file_xlsx = self.label_path_file.text()
         file_xlsx_path = os.path.split(file_xlsx)[0]
         file_xlsx_name = os.path.split(file_xlsx)[1]
-        print(file_xlsx)
+        print(f'{file_xlsx = }')
 
         # открывается выбранный файл
         wb_in = openpyxl.load_workbook(file_xlsx)
@@ -123,17 +123,19 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
 
 
+
         # создание названия выходного файла xls
         file_xls_path = file_xlsx_path[:]
         file_xls_name = os.path.splitext(file_xlsx_name)[0] + '_отчёт.xlsx'
-        file_xls = os.path.abspath(os.path.join(file_xls_path, file_xls_name))
+        file_report = os.path.abspath(os.path.join(file_xls_path, file_xls_name))
 
         # создание отчёта в xlsx и активация рабочего листа
         wb_out = openpyxl.Workbook()
         wb_out_s = wb_out.active
 
         # сохранение файла xlsx и закрытие его
-        wb_out.save(file_xls)
+        print(f'{file_report = }')
+        wb_out.save(file_report)
         wb_out.close()
 
         # открытие папки с сохранённым файлом xls
