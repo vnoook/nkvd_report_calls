@@ -109,17 +109,34 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
     # функция создания отчёта
     def parse_xlsx(self):
-        print('*'*50)
+        # print('*'*50)
         # получение пути и имени выбранного файла
         file_xlsx = self.label_path_file.text()
         file_xlsx_path = os.path.split(file_xlsx)[0]
         file_xlsx_name = os.path.split(file_xlsx)[1]
-        print(f'{file_xlsx = }')
+        # print(f'{file_xlsx = }')
 
         # открывается выбранный файл
         wb_in = openpyxl.load_workbook(file_xlsx)
         wb_in_s = wb_in['Журнал записей пациентов']
-        print(wb_in_s.min_column, wb_in_s.min_row, wb_in_s.max_column, wb_in_s.max_row, sep='\n')
+        # print(wb_in_s.min_column, wb_in_s.min_row, wb_in_s.max_column, wb_in_s.max_row, sep='\n')
+
+        # строка начала и конца
+        wb_in_s_row_begin = 3
+        wb_in_s_row_end = wb_in_s.max_row - 1
+        # print(wb_in_s_row_begin, wb_in_s_row_end)
+
+        # первая колонка для сбора инфы
+        wb_in_s_col_1 = 7
+        wb_in_s_col_2 = 18
+        wb_in_s_col_3 = 19
+
+        # множество для первого отбора
+        set_col_1 = set()
+
+        for row in range(wb_in_s_row_begin, wb_in_s_row_end+1):
+            set_col_1.add(wb_in_s.cell(row=row, column=wb_in_s_col_1).value)
+        print(set_col_1, sep='\n')
 
 
 
