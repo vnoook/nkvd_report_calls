@@ -131,7 +131,8 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         wb_in_s_col_2 = 18
         wb_in_s_col_3 = 19
 
-        # множества для отбора
+        # структуры для сбора данных
+        list_main = []
         set_col_1 = set()
         set_col_2 = set()
         set_col_3 = set()
@@ -139,16 +140,27 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # строки, которые нужно складывать
         str_for_summ = ('Интеграция Е.Р.', 'Administrator A.A.')
 
+        # получение всех данных из файла и его закрытие, чтобы к нему больше не возвращаться
         for row in range(wb_in_s_row_begin, wb_in_s_row_end+1):
-            set_col_1.add(wb_in_s.cell(row=row, column=wb_in_s_col_1).value)
-            set_col_2.add(wb_in_s.cell(row=row, column=wb_in_s_col_2).value)
-            set_col_3.add(wb_in_s.cell(row=row, column=wb_in_s_col_3).value)
+            list_main.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
+                              wb_in_s.cell(row=row, column=wb_in_s_col_2).value,
+                              wb_in_s.cell(row=row, column=wb_in_s_col_3).value
+                             ])
+        wb_in.close()
+
+        #
+        for val in list_main:
+            set_col_1.add(val[0])
+            set_col_2.add(val[1])
+            set_col_3.add(val[2])
+
         print(*set_col_1, sep='\n')
         print()
         print(*set_col_2, sep='\n')
         print()
         print(*set_col_3, sep='\n')
-
+        # print()
+        # print(*list_main, sep='\n')
 
 
 
