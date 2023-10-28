@@ -126,17 +126,28 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         wb_in_s_row_end = wb_in_s.max_row - 1
         # print(wb_in_s_row_begin, wb_in_s_row_end)
 
-        # первая колонка для сбора инфы
+        # колонки для сбора данных
         wb_in_s_col_1 = 7
         wb_in_s_col_2 = 18
         wb_in_s_col_3 = 19
 
-        # множество для первого отбора
+        # множества для отбора
         set_col_1 = set()
+        set_col_2 = set()
+        set_col_3 = set()
+
+        # строки, которые нужно складывать
+        str_for_summ = ('Интеграция Е.Р.', 'Administrator A.A.')
 
         for row in range(wb_in_s_row_begin, wb_in_s_row_end+1):
             set_col_1.add(wb_in_s.cell(row=row, column=wb_in_s_col_1).value)
-        print(set_col_1, sep='\n')
+            set_col_2.add(wb_in_s.cell(row=row, column=wb_in_s_col_2).value)
+            set_col_3.add(wb_in_s.cell(row=row, column=wb_in_s_col_3).value)
+        print(*set_col_1, sep='\n')
+        print()
+        print(*set_col_2, sep='\n')
+        print()
+        print(*set_col_3, sep='\n')
 
 
 
