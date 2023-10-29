@@ -150,21 +150,36 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # print()
         # print(*list_main, sep='\n')
 
-        # словарь для хранения подготовленных данных
-        dict_main = {}
+        # словарь для хранения отделений
+        dict_departments = {}
 
         # подсчёт и распределение
         for val_str in list_main:
-            print(val_str)
-            print(dict_main.get(val_str[0]))
-            if dict_main.get(val_str[0]) == None:
-                dict_main[val_str[0]] = 1
+            if dict_departments.get(val_str[0]) == None:
+                dict_departments[val_str[0]] = 1
             else:
-                dict_main[val_str[0]] = dict_main[val_str[0]] + 1
+                dict_departments[val_str[0]] = dict_departments[val_str[0]] + 1
+
+        # print()
+        # print(dict_departments)
+
+
+
+
+
+        # словарь для хранения записавших организаций
+        dict_organization = {}
+
+        # подсчёт и распределение
+        for val_str in dict_departments:
+            print(val_str)
+            # if dict_organization.get(val_str[1]) == None:
+            #     dict_organization[val_str[1]] = 1
+            # else:
+            #     dict_organization[val_str[1]] = dict_organization[val_str[0]] + 1
 
         print()
-        print(dict_main)
-
+        print(dict_organization)
 
 
 
