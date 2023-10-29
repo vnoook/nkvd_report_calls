@@ -160,7 +160,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
             # заполнение словаря записавших организаций
             if dict_organization.get(val_str[0]) == None:
-                # dict_organization[val_str[0]] = {}
                 dict_organization[val_str[0]] = {val_str[1] : 1}
             else:
                 if dict_organization[val_str[0]].get(val_str[1]) == None:
@@ -168,11 +167,13 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                 else:
                     dict_organization[val_str[0]][val_str[1]] = dict_organization[val_str[0]][val_str[1]] + 1
 
-        # print()
-        # print(dict_departments)
+        print()
+        print(dict_departments)
         print()
         print(dict_organization)
 
+        # for k,v in dict_organization.items():
+        #     print(f'{k} {v}')
 
 
 
