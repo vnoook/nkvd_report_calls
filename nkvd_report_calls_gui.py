@@ -173,8 +173,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         for k, v in dict_organization.items():
             print(k, '-', dict_departments[k], 'пациентов')
-            print('--- тут строка подсчёта которую я не понял ---')
-            print()
+            print('(--- тут строка подсчёта которую я не понял ---)')
+            for d, q in v.items():
+                print(d, '-', q)
 
             print()
 
