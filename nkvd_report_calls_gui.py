@@ -109,22 +109,18 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
     # функция создания отчёта
     def parse_xlsx(self):
-        # print('*'*50)
         # получение пути и имени выбранного файла
         file_xlsx = self.label_path_file.text()
         file_xlsx_path = os.path.split(file_xlsx)[0]
         file_xlsx_name = os.path.split(file_xlsx)[1]
-        # print(f'{file_xlsx = }')
 
         # открывается выбранный файл
         wb_in = openpyxl.load_workbook(file_xlsx)
         wb_in_s = wb_in['Журнал записей пациентов']
-        # print(wb_in_s.min_column, wb_in_s.min_row, wb_in_s.max_column, wb_in_s.max_row, sep='\n')
 
         # строка начала и конца
         wb_in_s_row_begin = 3
         wb_in_s_row_end = wb_in_s.max_row - 1
-        # print(wb_in_s_row_begin, wb_in_s_row_end)
 
         # колонки для сбора данных
         wb_in_s_col_1 = 7
@@ -147,8 +143,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                               wb_in_s.cell(row=row, column=wb_in_s_col_3).value
                              ])
         wb_in.close()
-        # print()
-        # print(*list_main, sep='\n')
 
         # словарь для хранения отделений
         dict_departments = {}
@@ -165,7 +159,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
             # заполнение словаря записавших организаций
             if dict_organization.get(val_str[0]) == None:
-                # print(val_str)
                 if dict_organization.get(val_str[0]) == None:
                     dict_organization[val_str[0]] = {val_str[1]:1}
                 else:
@@ -180,17 +173,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
 
 
-
-        # # подсчёт и распределение
-        # for val_str in dict_departments:
-        #     print(val_str)
-        #     # if dict_organization.get(val_str[1]) == None:
-        #     #     dict_organization[val_str[1]] = 1
-        #     # else:
-        #     #     dict_organization[val_str[1]] = dict_organization[val_str[0]] + 1
-        #
-        # print()
-        # print(dict_organization)
 
 
 
