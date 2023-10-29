@@ -166,14 +166,17 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                     dict_organization[val_str[0]][val_str[1]] = 1
                 else:
                     dict_organization[val_str[0]][val_str[1]] = dict_organization[val_str[0]][val_str[1]] + 1
+        # print()
+        # print(dict_departments)
+        # print()
+        # print(dict_organization)
 
-        print()
-        print(dict_departments)
-        print()
-        print(dict_organization)
+        for k, v in dict_organization.items():
+            print(k, '-', dict_departments[k], 'пациентов')
+            print('--- тут строка подсчёта которую я не понял ---')
+            print()
 
-        # for k,v in dict_organization.items():
-        #     print(f'{k} {v}')
+            print()
 
 
 
