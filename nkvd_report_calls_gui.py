@@ -137,7 +137,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         str_for_summ = ('Интеграция Е.Р.', 'Administrator A.A.')
 
         # получение всех данных из файла и его закрытие, чтобы к нему больше не возвращаться
-        for row in range(wb_in_s_row_begin, wb_in_s_row_end+1):
+        for row in range(wb_in_s_row_begin, wb_in_s_row_end + 1):
             list_main.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
                               wb_in_s.cell(row=row, column=wb_in_s_col_2).value,
                               wb_in_s.cell(row=row, column=wb_in_s_col_3).value
@@ -151,6 +151,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         # подсчёт и распределение
         for val_str in list_main:
+            # print(val_str)
             # заполнение словаря отделений
             if dict_departments.get(val_str[0]) == None:
                 dict_departments[val_str[0]] = 1
@@ -159,10 +160,13 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
             # заполнение словаря записавших организаций
             if dict_organization.get(val_str[0]) == None:
-                if dict_organization.get(val_str[0]) == None:
-                    dict_organization[val_str[0]] = {val_str[1]:1}
+                # dict_organization[val_str[0]] = {}
+                dict_organization[val_str[0]] = {val_str[1] : 1}
+            else:
+                if dict_organization[val_str[0]].get(val_str[1]) == None:
+                    dict_organization[val_str[0]][val_str[1]] = 1
                 else:
-                    dict_organization[val_str[0]] = {val_str[1]: 1}
+                    dict_organization[val_str[0]][val_str[1]] = dict_organization[val_str[0]][val_str[1]] + 1
 
         # print()
         # print(dict_departments)
