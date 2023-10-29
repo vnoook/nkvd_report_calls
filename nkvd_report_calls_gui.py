@@ -152,34 +152,45 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         # словарь для хранения отделений
         dict_departments = {}
+        # словарь для хранения записавших организаций
+        dict_organization = {}
 
         # подсчёт и распределение
         for val_str in list_main:
+            # заполнение словаря отделений
             if dict_departments.get(val_str[0]) == None:
                 dict_departments[val_str[0]] = 1
             else:
                 dict_departments[val_str[0]] = dict_departments[val_str[0]] + 1
 
+            # заполнение словаря записавших организаций
+            if dict_organization.get(val_str[0]) == None:
+                # print(val_str)
+                if dict_organization.get(val_str[0]) == None:
+                    dict_organization[val_str[0]] = {val_str[1]:1}
+                else:
+                    dict_organization[val_str[0]] = {val_str[1]: 1}
+
         # print()
         # print(dict_departments)
-
-
-
-
-
-        # словарь для хранения записавших организаций
-        dict_organization = {}
-
-        # подсчёт и распределение
-        for val_str in dict_departments:
-            print(val_str)
-            # if dict_organization.get(val_str[1]) == None:
-            #     dict_organization[val_str[1]] = 1
-            # else:
-            #     dict_organization[val_str[1]] = dict_organization[val_str[0]] + 1
-
         print()
         print(dict_organization)
+
+
+
+
+
+
+        # # подсчёт и распределение
+        # for val_str in dict_departments:
+        #     print(val_str)
+        #     # if dict_organization.get(val_str[1]) == None:
+        #     #     dict_organization[val_str[1]] = 1
+        #     # else:
+        #     #     dict_organization[val_str[1]] = dict_organization[val_str[0]] + 1
+        #
+        # print()
+        # print(dict_organization)
 
 
 
