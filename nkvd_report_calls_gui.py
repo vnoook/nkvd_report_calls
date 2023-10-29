@@ -10,6 +10,7 @@ import PyQt5.QtGui
 # класс главного окна
 class WindowMain(PyQt5.QtWidgets.QMainWindow):
     """Класс главного окна"""
+
     # описание главного окна
     def __init__(self):
         super().__init__()
@@ -129,9 +130,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         # структуры для сбора данных
         list_main = []
-        set_col_1 = set()  # отделение
-        set_col_2 = set()  # записавшая организация
-        set_col_3 = set()  # кем записан
+        # set_col_1 = set()  # отделение
+        # set_col_2 = set()  # записавшая организация
+        # set_col_3 = set()  # кем записан
 
         # строки, которые нужно складывать
         str_for_summ = ('Интеграция Е.Р.', 'Administrator A.A.')
@@ -141,7 +142,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             list_main.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
                               wb_in_s.cell(row=row, column=wb_in_s_col_2).value,
                               wb_in_s.cell(row=row, column=wb_in_s_col_3).value
-                             ])
+                              ])
         wb_in.close()
 
         # словарь для хранения отделений
@@ -153,16 +154,16 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         for val_str in list_main:
             # print(val_str)
             # заполнение словаря отделений
-            if dict_departments.get(val_str[0]) == None:
+            if dict_departments.get(val_str[0]) is None:
                 dict_departments[val_str[0]] = 1
             else:
                 dict_departments[val_str[0]] = dict_departments[val_str[0]] + 1
 
             # заполнение словаря записавших организаций
-            if dict_organization.get(val_str[0]) == None:
-                dict_organization[val_str[0]] = {val_str[1] : 1}
+            if dict_organization.get(val_str[0]) is None:
+                dict_organization[val_str[0]] = {val_str[1]: 1}
             else:
-                if dict_organization[val_str[0]].get(val_str[1]) == None:
+                if dict_organization[val_str[0]].get(val_str[1]) is None:
                     dict_organization[val_str[0]][val_str[1]] = 1
                 else:
                     dict_organization[val_str[0]][val_str[1]] = dict_organization[val_str[0]][val_str[1]] + 1
@@ -172,20 +173,11 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # print(dict_organization)
 
         for k, v in dict_organization.items():
-            print(k, '-', dict_departments[k], 'пациентов')
-            print('(--- тут строка подсчёта которую я не понял ---)')
+            print(k, '-', dict_departments[k], 'пациент(ов)')
+            print('(--- строка подсчёта по которой есть вопросы ---)')
             for d, q in v.items():
                 print(d, '-', q)
-
             print()
-
-
-
-
-
-
-
-
 
         # создание названия выходного файла xls
         file_xls_path = file_xlsx_path[:]
