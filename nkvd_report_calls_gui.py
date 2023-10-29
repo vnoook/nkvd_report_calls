@@ -133,9 +133,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         # структуры для сбора данных
         list_main = []
-        set_col_1 = set()
-        set_col_2 = set()
-        set_col_3 = set()
+        set_col_1 = set()  # отделение
+        set_col_2 = set()  # записавшая организация
+        set_col_3 = set()  # кем записан
 
         # строки, которые нужно складывать
         str_for_summ = ('Интеграция Е.Р.', 'Administrator A.A.')
@@ -147,20 +147,26 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                               wb_in_s.cell(row=row, column=wb_in_s_col_3).value
                              ])
         wb_in.close()
-
-        #
-        for val in list_main:
-            set_col_1.add(val[0])
-            set_col_2.add(val[1])
-            set_col_3.add(val[2])
-
-        print(*set_col_1, sep='\n')
-        print()
-        print(*set_col_2, sep='\n')
-        print()
-        print(*set_col_3, sep='\n')
         # print()
         # print(*list_main, sep='\n')
+
+        # словарь для хранения подготовленных данных
+        dict_main = {}
+
+        # подсчёт и распределение
+        for val_str in list_main:
+            print(val_str)
+            print(dict_main.get(val_str[0]))
+            if dict_main.get(val_str[0]) == None:
+                dict_main[val_str[0]] = 1
+            else:
+                dict_main[val_str[0]] = dict_main[val_str[0]] + 1
+
+        print()
+        print(dict_main)
+
+
+
 
 
 
@@ -174,9 +180,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         wb_out_s = wb_out.active
 
         # сохранение файла xlsx и закрытие его
-        print(f'{file_report = }')
         wb_out.save(file_report)
         wb_out.close()
+        # print(f'{file_report = }')
 
         # открытие папки с сохранённым файлом xls
         fullpath = os.path.abspath(file_xls_path)
