@@ -123,16 +123,21 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         wb_in_s_row_begin = 3
         wb_in_s_row_end = wb_in_s.max_row - 1
 
-        # колонки для сбора данных
+        # номера колонок для сбора данных
         wb_in_s_col_1 = 7
         wb_in_s_col_2 = 18
         wb_in_s_col_3 = 19
 
         # структуры для сбора данных
-        list_main = []
+        list_all_data = []
         # set_col_1 = set()  # отделение
         # set_col_2 = set()  # записавшая организация
         # set_col_3 = set()  # кем записан
+
+        # словарь для хранения отделений
+        dict_departments = {}
+        # словарь для хранения записавших организаций
+        dict_organization = {}
 
         # строки, которые нужно складывать
         str_for_summ = {'Интеграция Е.Р.': 'ЕПГУ-Госуслуги',
@@ -145,7 +150,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         # получение всех данных из файла и его закрытие, чтобы к нему больше не возвращаться
         for row in range(wb_in_s_row_begin, wb_in_s_row_end + 1):
-            list_main.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
+            list_all_data.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
                               wb_in_s.cell(row=row, column=wb_in_s_col_2).value,
                               wb_in_s.cell(row=row, column=wb_in_s_col_3).value
                               ])
@@ -155,15 +160,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         wb_out = openpyxl.Workbook()
         wb_out_s = wb_out.active
 
-        # словарь для хранения отделений
-        dict_departments = {}
-        # словарь для хранения записавших организаций
-        dict_organization = {}
-
         # подсчёт и распределение
-        for val_str in list_main:
+        for val_str in list_all_data:
             if val_str[0] in str_for_filter:
-                # print(val_str)
                 # заполнение словаря отделений
                 if dict_departments.get(val_str[0]) is None:
                     dict_departments[val_str[0]] = 1
@@ -178,10 +177,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                         dict_organization[val_str[0]][val_str[1]] = 1
                     else:
                         dict_organization[val_str[0]][val_str[1]] = dict_organization[val_str[0]][val_str[1]] + 1
-        # print()
-        # print(dict_departments)
-        # print()
-        # print(dict_organization)
 
         # формирование отчёта
         for k, v in dict_organization.items():
@@ -203,7 +198,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # сохранение файла xlsx и закрытие его
         wb_out.save(file_report)
         wb_out.close()
-        # print(f'{file_report = }')
 
         # открытие папки с сохранённым файлом xls
         fullpath = os.path.abspath(file_xls_path)
