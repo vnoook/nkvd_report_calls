@@ -145,6 +145,10 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                               ])
         wb_in.close()
 
+        # создание отчёта в xlsx и активация рабочего листа
+        wb_out = openpyxl.Workbook()
+        wb_out_s = wb_out.active
+
         # словарь для хранения отделений
         dict_departments = {}
         # словарь для хранения записавших организаций
@@ -173,20 +177,27 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # print(dict_organization)
 
         for k, v in dict_organization.items():
-            print(k, '-', dict_departments[k], 'пациент(ов)')
+            print(f'{k} - {dict_departments[k]} пациент(ов)')
+            wb_out_s.append([f'{k} - {dict_departments[k]} пациент(ов)'])
             print('(--- строка подсчёта по которой есть вопросы ---)')
+            wb_out_s.append(['(--- строка подсчёта по которой есть вопросы ---)'])
             for d, q in v.items():
                 print(d, '-', q)
+                wb_out_s.append([f'{d} - {q}'])
             print()
+            wb_out_s.append([])
+
 
         # создание названия выходного файла xls
         file_xls_path = file_xlsx_path[:]
         file_xls_name = os.path.splitext(file_xlsx_name)[0] + '_отчёт.xlsx'
         file_report = os.path.abspath(os.path.join(file_xls_path, file_xls_name))
 
-        # создание отчёта в xlsx и активация рабочего листа
-        wb_out = openpyxl.Workbook()
-        wb_out_s = wb_out.active
+
+
+
+
+
 
         # сохранение файла xlsx и закрытие его
         wb_out.save(file_report)
