@@ -3,8 +3,8 @@ import sys
 import openpyxl
 import PyQt5
 import PyQt5.QtWidgets
-import PyQt5.QtCore
-import PyQt5.QtGui
+# import PyQt5.QtCore
+# import PyQt5.QtGui
 
 
 # класс главного окна
@@ -138,6 +138,10 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         str_for_summ = {'Интеграция Е.Р.': 'ЕПГУ-Госуслуги',
                         'Administrator A.A.': 'МИАЦ',
                         'Система Г.С.': 'СГС-Робот Николай'}
+        # строки по которым нужно фильтровать
+        str_for_filter = ('Амбулаторное отделение №1', 'Амбулаторное отделение №2',
+                          'Амбулаторное отделение №3', 'Амбулаторное отделение №4',
+                          'Подростковый специализированный центр профилактики и лечения инфекций, передаваемых половым путем')
 
         # получение всех данных из файла и его закрытие, чтобы к нему больше не возвращаться
         for row in range(wb_in_s_row_begin, wb_in_s_row_end + 1):
@@ -158,26 +162,28 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         # подсчёт и распределение
         for val_str in list_main:
-            # print(val_str)
-            # заполнение словаря отделений
-            if dict_departments.get(val_str[0]) is None:
-                dict_departments[val_str[0]] = 1
-            else:
-                dict_departments[val_str[0]] = dict_departments[val_str[0]] + 1
-
-            # заполнение словаря записавших организаций
-            if dict_organization.get(val_str[0]) is None:
-                dict_organization[val_str[0]] = {val_str[1]: 1}
-            else:
-                if dict_organization[val_str[0]].get(val_str[1]) is None:
-                    dict_organization[val_str[0]][val_str[1]] = 1
+            if val_str[0] in str_for_filter:
+                # print(val_str)
+                # заполнение словаря отделений
+                if dict_departments.get(val_str[0]) is None:
+                    dict_departments[val_str[0]] = 1
                 else:
-                    dict_organization[val_str[0]][val_str[1]] = dict_organization[val_str[0]][val_str[1]] + 1
+                    dict_departments[val_str[0]] = dict_departments[val_str[0]] + 1
+
+                # заполнение словаря записавших организаций
+                if dict_organization.get(val_str[0]) is None:
+                    dict_organization[val_str[0]] = {val_str[1]: 1}
+                else:
+                    if dict_organization[val_str[0]].get(val_str[1]) is None:
+                        dict_organization[val_str[0]][val_str[1]] = 1
+                    else:
+                        dict_organization[val_str[0]][val_str[1]] = dict_organization[val_str[0]][val_str[1]] + 1
         # print()
         # print(dict_departments)
         # print()
         # print(dict_organization)
 
+        # формирование отчёта
         for k, v in dict_organization.items():
             print(f'{k} - {dict_departments[k]} пациент(ов)')
             wb_out_s.append([f'{k} - {dict_departments[k]} пациент(ов)'])
