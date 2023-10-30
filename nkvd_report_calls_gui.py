@@ -135,7 +135,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # set_col_3 = set()  # кем записан
 
         # строки, которые нужно складывать
-        str_for_summ = ('Интеграция Е.Р.', 'Administrator A.A.')
+        str_for_summ = {'Интеграция Е.Р.': 'ЕПГУ-Госуслуги',
+                        'Administrator A.A.': 'МИАЦ',
+                        'Система Г.С.': 'СГС-Робот Николай'}
 
         # получение всех данных из файла и его закрытие, чтобы к нему больше не возвращаться
         for row in range(wb_in_s_row_begin, wb_in_s_row_end + 1):
@@ -187,17 +189,10 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             print()
             wb_out_s.append([])
 
-
         # создание названия выходного файла xls
         file_xls_path = file_xlsx_path[:]
         file_xls_name = os.path.splitext(file_xlsx_name)[0] + '_отчёт.xlsx'
         file_report = os.path.abspath(os.path.join(file_xls_path, file_xls_name))
-
-
-
-
-
-
 
         # сохранение файла xlsx и закрытие его
         wb_out.save(file_report)
