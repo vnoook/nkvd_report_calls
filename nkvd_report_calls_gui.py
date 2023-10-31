@@ -3,6 +3,8 @@ import sys
 import openpyxl
 import PyQt5
 import PyQt5.QtWidgets
+
+
 # import PyQt5.QtCore
 # import PyQt5.QtGui
 
@@ -138,6 +140,8 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         dict_departments = {}
         # словарь для хранения записавших организаций
         dict_organization = {}
+        # словарь для хранения "кеи записан"
+        dict_persona = {}
 
         # строки, которые нужно складывать
         str_for_summ = {'Интеграция Е.Р.': 'ЕПГУ-Госуслуги',
@@ -151,9 +155,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # получение всех данных из файла и его закрытие, чтобы к нему больше не возвращаться
         for row in range(wb_in_s_row_begin, wb_in_s_row_end + 1):
             list_all_data.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
-                              wb_in_s.cell(row=row, column=wb_in_s_col_2).value,
-                              wb_in_s.cell(row=row, column=wb_in_s_col_3).value
-                              ])
+                                  wb_in_s.cell(row=row, column=wb_in_s_col_2).value,
+                                  wb_in_s.cell(row=row, column=wb_in_s_col_3).value
+                                  ])
         wb_in.close()
 
         # создание отчёта в xlsx и активация рабочего листа
@@ -178,16 +182,35 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                     else:
                         dict_organization[val_str[0]][val_str[1]] = dict_organization[val_str[0]][val_str[1]] + 1
 
+                # заполнение словаря "кем записан"
+                if val_str[2] in str_for_summ:
+                    if dict_persona.get(val_str[0]) is None:
+                        dict_persona[val_str[0]] = {val_str[2] : 1}
+                    else:
+                        if dict_persona[val_str[0]].get(val_str[2]) is None:
+                            dict_persona[val_str[0]][val_str[2]] = 1
+                        else:
+                            dict_persona[val_str[0]][val_str[2]] = dict_persona[val_str[0]][val_str[2]] + 1
+
+        # print(dict_persona)
+        # TODO
+        # сортировка словарей по ключам
+
         # формирование отчёта
         for k, v in dict_organization.items():
-            print(f'{k} - {dict_departments[k]} пациент(ов)')
+            print(k, '...', v)
+
+            # print(f'{k} - {dict_departments[k]} пациент(ов)')
             wb_out_s.append([f'{k} - {dict_departments[k]} пациент(ов)'])
-            print('(--- строка подсчёта по которой есть вопросы ---)')
+
+            # print('(--- строка подсчёта по которой есть вопросы ---)')
             wb_out_s.append(['(--- строка подсчёта по которой есть вопросы ---)'])
+
             for d, q in v.items():
-                print(d, '-', q)
+                # print(d, '-', q)
                 wb_out_s.append([f'{d} - {q}'])
-            print()
+
+            # print()
             wb_out_s.append([])
 
         # создание названия выходного файла xls
