@@ -143,10 +143,10 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # словарь для хранения "кеи записан"
         dict_persona = {}
 
-        # строки, которые нужно складывать
-        str_for_summ = {'Интеграция Е.Р.': 'ЕПГУ-Госуслуги',
-                        'Administrator A.A.': 'МИАЦ',
-                        'Система Г.С.': 'СГС-Робот Николай'}
+        # персоны, которые нужно суммировать
+        str_person_summ = {'Интеграция Е.Р.': 'ЕПГУ-Госуслуги',
+                           'Administrator A.A.': 'МИАЦ',
+                           'Система Г.С.': 'СГС-Робот Николай'}
         # строки по которым нужно фильтровать
         str_for_filter = ('Амбулаторное отделение №1', 'Амбулаторное отделение №2',
                           'Амбулаторное отделение №3', 'Амбулаторное отделение №4',
@@ -156,8 +156,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         for row in range(wb_in_s_row_begin, wb_in_s_row_end + 1):
             list_all_data.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
                                   wb_in_s.cell(row=row, column=wb_in_s_col_2).value,
-                                  wb_in_s.cell(row=row, column=wb_in_s_col_3).value
-                                  ])
+                                  wb_in_s.cell(row=row, column=wb_in_s_col_3).value])
         wb_in.close()
 
         # создание отчёта в xlsx и активация рабочего листа
@@ -183,9 +182,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                         dict_organization[val_str[0]][val_str[1]] = dict_organization[val_str[0]][val_str[1]] + 1
 
                 # заполнение словаря "кем записан"
-                if val_str[2] in str_for_summ:
+                if val_str[2] in str_person_summ:
                     if dict_persona.get(val_str[0]) is None:
-                        dict_persona[val_str[0]] = {val_str[2] : 1}
+                        dict_persona[val_str[0]] = {val_str[2]: 1}
                     else:
                         if dict_persona[val_str[0]].get(val_str[2]) is None:
                             dict_persona[val_str[0]][val_str[2]] = 1
@@ -200,16 +199,23 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         dict_persona = dict(sorted(dict_persona.items()))
 
         # формирование отчёта
-        for k, v in dict_organization.items():
-            print(k, '...', v)
+        for k_org, v_org in dict_organization.items():
+            # print(k_org, '...', v_org)
 
-            # print(f'{k} - {dict_departments[k]} пациент(ов)')
-            wb_out_s.append([f'{k} - {dict_departments[k]} пациент(ов)'])
+            # print(f'{k_org} - {dict_departments[k_org]} пациент(ов)')
+            wb_out_s.append([f'{k_org} - {dict_departments[k_org]} пациент(ов)'])
 
-            # print('(--- строка подсчёта по которой есть вопросы ---)')
-            wb_out_s.append(['(--- строка подсчёта по которой есть вопросы ---)'])
+            if dict_persona[k_org]:
+                dict_persona[k_org] = dict(sorted(dict_persona[k_org].items()))
+                print()
+                for k_p, v_p in dict_persona[k_org].items():
+                    # print(f'{v_p} через {str_person_summ[k_p]}')
+                    persona_string = ', '.join(f'{v_p} через {str_person_summ[k_p]}')
+            else:
+                persona_string = 'пусто'
+            wb_out_s.append([f'(--- из них {persona_string} ---)'])
 
-            for d, q in v.items():
+            for d, q in v_org.items():
                 # print(d, '-', q)
                 wb_out_s.append([f'{d} - {q}'])
 
