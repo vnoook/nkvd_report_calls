@@ -193,8 +193,11 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                             dict_persona[val_str[0]][val_str[2]] = dict_persona[val_str[0]][val_str[2]] + 1
 
         # print(dict_persona)
-        # TODO
-        # сортировка словарей по ключам
+
+        # сортировка словарей
+        dict_organization = dict(sorted(dict_organization.items()))
+        dict_departments = dict(sorted(dict_departments.items()))
+        dict_persona = dict(sorted(dict_persona.items()))
 
         # формирование отчёта
         for k, v in dict_organization.items():
