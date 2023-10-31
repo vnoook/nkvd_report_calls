@@ -209,8 +209,8 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                 dict_persona[k_org] = dict(sorted(dict_persona[k_org].items()))
                 print()
                 for k_p, v_p in dict_persona[k_org].items():
-                    # print(f'{v_p} через {str_person_summ[k_p]}')
-                    persona_string = ', '.join(f'{v_p} через {str_person_summ[k_p]}')
+                    persona_string = ', '.join([f'{v_p} через {str_person_summ[k_p]}'])
+                    print(persona_string)
             else:
                 persona_string = 'пусто'
             wb_out_s.append([f'(--- из них {persona_string} ---)'])
