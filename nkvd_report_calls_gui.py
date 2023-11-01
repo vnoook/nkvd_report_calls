@@ -208,12 +208,13 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             if dict_persona[k_org]:
                 dict_persona[k_org] = dict(sorted(dict_persona[k_org].items()))
                 print()
+                persona_string = ''
                 for k_p, v_p in dict_persona[k_org].items():
-                    persona_string = ', '.join([f'{v_p} через {str_person_summ[k_p]}'])
-                    print(persona_string)
+                    persona_string = persona_string + f'{v_p} через {str_person_summ[k_p]}' + ', '
+                # print(f'{persona_string[:-2] = }')
             else:
                 persona_string = 'пусто'
-            wb_out_s.append([f'(--- из них {persona_string} ---)'])
+            wb_out_s.append([f'из них {persona_string[:-2]}'])
 
             for d, q in v_org.items():
                 # print(d, '-', q)
