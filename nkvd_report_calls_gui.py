@@ -3,10 +3,8 @@ import sys
 import openpyxl
 import PyQt5
 import PyQt5.QtWidgets
-
-
-# import PyQt5.QtCore
-# import PyQt5.QtGui
+import PyQt5.QtCore
+import PyQt5.QtGui
 
 
 # класс главного окна
@@ -191,8 +189,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                         else:
                             dict_persona[val_str[0]][val_str[2]] = dict_persona[val_str[0]][val_str[2]] + 1
 
-        # print(dict_persona)
-
         # сортировка словарей
         dict_organization = dict(sorted(dict_organization.items()))
         dict_departments = dict(sorted(dict_departments.items()))
@@ -200,27 +196,20 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         # формирование отчёта
         for k_org, v_org in dict_organization.items():
-            # print(k_org, '...', v_org)
-
-            # print(f'{k_org} - {dict_departments[k_org]} пациент(ов)')
             wb_out_s.append([f'{k_org} - {dict_departments[k_org]} пациент(ов)'])
 
             if dict_persona[k_org]:
                 dict_persona[k_org] = dict(sorted(dict_persona[k_org].items()))
-                print()
                 persona_string = ''
                 for k_p, v_p in dict_persona[k_org].items():
                     persona_string = persona_string + f'{v_p} через {str_person_summ[k_p]}' + ', '
-                # print(f'{persona_string[:-2] = }')
             else:
                 persona_string = 'пусто'
             wb_out_s.append([f'(из них {persona_string[:-2]})'])
 
             for d, q in v_org.items():
-                # print(d, '-', q)
                 wb_out_s.append([f'{d} - {q}'])
 
-            # print()
             wb_out_s.append([])
 
         # создание названия выходного файла xls
