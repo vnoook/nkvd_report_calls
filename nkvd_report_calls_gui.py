@@ -214,7 +214,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                 # print(f'{persona_string[:-2] = }')
             else:
                 persona_string = 'пусто'
-            wb_out_s.append([f'из них {persona_string[:-2]}'])
+            wb_out_s.append([f'(из них {persona_string[:-2]})'])
 
             for d, q in v_org.items():
                 # print(d, '-', q)
