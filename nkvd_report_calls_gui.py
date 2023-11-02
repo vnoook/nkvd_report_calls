@@ -1,6 +1,8 @@
 import os
 import sys
 import openpyxl
+import openpyxl.utils
+import openpyxl.styles
 import PyQt5
 import PyQt5.QtWidgets
 import PyQt5.QtCore
@@ -194,6 +196,11 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         dict_departments = dict(sorted(dict_departments.items()))
         dict_persona = dict(sorted(dict_persona.items()))
 
+        # добавления стиля строк
+        # style_1 = openpyxl.styles.NamedStyle(name='style_1')
+        # style_1.fill = openpyxl.styles.PatternFill('solid', fgColor='00FF99CC')
+        # file_xlsx_s.cell(row, col).style = style_1
+
         # формирование отчёта
         for k_org, v_org in dict_organization.items():
             wb_out_s.append([f'{k_org} - {dict_departments[k_org]} пациент(ов)'])
@@ -243,3 +250,11 @@ def main_app():
 # запуск основного окна
 if __name__ == '__main__':
     main_app()
+
+# style_1 = openpyxl.styles.NamedStyle(name='style_1')
+# style_1.fill = openpyxl.styles.PatternFill('solid', fgColor='00FF99CC')
+# file_xlsx_s.cell(row, col).style = style_1
+
+# # установка ширины ячеек по всем колонкам для красоты в экселе
+# file_xlsx_s.column_dimensions[openpyxl.utils.get_column_letter(col)].width = max_len_value_of_col * 1.1
+# max_len_value_of_col = 0
