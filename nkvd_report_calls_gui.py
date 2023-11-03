@@ -201,6 +201,8 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # style_1.fill = openpyxl.styles.PatternFill('solid', fgColor='00FF99CC')
         # file_xlsx_s.cell(row, col).style = style_1
 
+        wb_out_s.cell(row=1, column=1).value = '123qwerty'
+
         # формирование отчёта
         for k_org, v_org in dict_organization.items():
             wb_out_s.append([f'{k_org} - {dict_departments[k_org]} пациент(ов)'])
