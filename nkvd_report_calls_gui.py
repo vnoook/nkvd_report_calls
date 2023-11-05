@@ -201,28 +201,38 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         style2 = openpyxl.styles.Font(bold=True, size=14)
         style3 = openpyxl.styles.Font(bold=False, size=12)
 
-        for row in range(1, len(dict_organization)+1):
-            wb_out_s.cell(row=row, column=1).font = style1
-            wb_out_s.cell(row=row, column=1).value = '123qwerty'
+        # for row in range(1, len(dict_organization)+1):
+        #     wb_out_s.cell(row=row, column=1).font = style1
+        #     wb_out_s.cell(row=row, column=1).value = '123qwerty'
 
+        row = 1
+        col = 1
         # формирование отчёта
         for k_org, v_org in dict_organization.items():
-            wb_out_s.append([f'{k_org} - {dict_departments[k_org]} пациент(ов)'])
+            wb_out_s.cell(row=row, column=col).font = style1
+            wb_out_s.cell(row=row, column=col).value = f'{k_org} - {dict_departments[k_org]} пациент(ов)'
+            row += 1
+            # wb_out_s.append([f'{k_org} - {dict_departments[k_org]} пациент(ов)'])
 
             if dict_persona[k_org]:
                 dict_persona[k_org] = dict(sorted(dict_persona[k_org].items()))
                 persona_string = ''
                 for k_p, v_p in dict_persona[k_org].items():
                     persona_string = persona_string + f'{v_p} через {str_person_summ[k_p]}' + ', '
-            else:
-                persona_string = 'пусто'
 
-            wb_out_s.append([f'(из них {persona_string[:-2]})'])
+            wb_out_s.cell(row=row, column=col).font = style2
+            wb_out_s.cell(row=row, column=col).value = f'(из них {persona_string[:-2]})'
+            row += 1
+            # wb_out_s.append([f'(из них {persona_string[:-2]})'])
 
             for d, q in v_org.items():
-                wb_out_s.append([f'{d} - {q}'])
+                wb_out_s.cell(row=row, column=col).font = style3
+                wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
+                row += 1
+                # wb_out_s.append([f'{d} - {q}'])
 
             wb_out_s.append([])
+            row += 1
 
         # создание названия выходного файла xls
         file_xls_path = file_xlsx_path[:]
