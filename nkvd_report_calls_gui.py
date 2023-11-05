@@ -132,9 +132,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         # структуры для сбора данных
         list_all_data = []
-        # set_col_1 = set()  # отделение
-        # set_col_2 = set()  # записавшая организация
-        # set_col_3 = set()  # кем записан
 
         # словарь для хранения отделений
         dict_departments = {}
@@ -201,10 +198,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         style2 = openpyxl.styles.Font(bold=True, size=14)
         style3 = openpyxl.styles.Font(bold=False, size=12)
 
-        # for row in range(1, len(dict_organization)+1):
-        #     wb_out_s.cell(row=row, column=1).font = style1
-        #     wb_out_s.cell(row=row, column=1).value = '123qwerty'
-
         row = 1
         col = 1
         # формирование отчёта
@@ -212,7 +205,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             wb_out_s.cell(row=row, column=col).font = style1
             wb_out_s.cell(row=row, column=col).value = f'{k_org} - {dict_departments[k_org]} пациент(ов)'
             row += 1
-            # wb_out_s.append([f'{k_org} - {dict_departments[k_org]} пациент(ов)'])
 
             if dict_persona[k_org]:
                 dict_persona[k_org] = dict(sorted(dict_persona[k_org].items()))
@@ -223,13 +215,11 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             wb_out_s.cell(row=row, column=col).font = style2
             wb_out_s.cell(row=row, column=col).value = f'(из них {persona_string[:-2]})'
             row += 1
-            # wb_out_s.append([f'(из них {persona_string[:-2]})'])
 
             for d, q in v_org.items():
                 wb_out_s.cell(row=row, column=col).font = style3
                 wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
                 row += 1
-                # wb_out_s.append([f'{d} - {q}'])
 
             wb_out_s.append([])
             row += 1
@@ -265,16 +255,3 @@ def main_app():
 # запуск основного окна
 if __name__ == '__main__':
     main_app()
-
-# style_1 = openpyxl.styles.NamedStyle(name='style_1')
-# style_1.fill = openpyxl.styles.PatternFill('solid', fgColor='00FF99CC')
-# file_xlsx_s.cell(row, col).style = style_1
-
-
-# # установка ширины ячеек по всем колонкам для красоты в экселе
-# file_xlsx_s.column_dimensions[openpyxl.utils.get_column_letter(col)].width = max_len_value_of_col * 1.1
-# max_len_value_of_col = 0
-
-# wb_IC_cells_range[indexR_IC][indexC_IC].fill = openpyxl.styles.PatternFill(start_color='FF0000',
-#                                                                            end_color='FF0000',
-#                                                                            fill_type='solid')
