@@ -200,6 +200,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         row = 1
         col = 1
+        persona_string = ''
         # формирование отчёта
         for k_org, v_org in dict_organization.items():
             wb_out_s.cell(row=row, column=col).font = style1
