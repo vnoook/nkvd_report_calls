@@ -126,19 +126,25 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         wb_in_s_row_end = wb_in_s.max_row - 1
 
         # номера колонок для сбора данных
-        wb_in_s_col_1 = 7
-        wb_in_s_col_2 = 18
-        wb_in_s_col_3 = 19
+        wb_in_s_col_1 = 7   # Отделение
+        wb_in_s_col_2 = 18  # Записавшая организация
+        wb_in_s_col_3 = 19  # Кем записан
+        wb_in_s_col_4 = 9   # Услуга
+        wb_in_s_col_5 = 10  # Статус услуги
 
         # структуры для сбора данных
         list_all_data = []
 
-        # словарь для хранения отделений
+        # словарь для хранения "отделений"
         dict_departments = {}
-        # словарь для хранения записавших организаций
+        # словарь для хранения "записавших организаций"
         dict_organization = {}
-        # словарь для хранения "кеи записан"
+        # словарь для хранения "кем записан"
         dict_persona = {}
+        # словарь для хранения "услуги"
+        dict_service = {}
+        # словарь для хранения "статуса услуги"
+        dict_status_service = {}
 
         # персоны, которые нужно суммировать
         str_person_summ = {'Интеграция Е.Р.': 'ЕПГУ-Госуслуги',
@@ -153,7 +159,10 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         for row in range(wb_in_s_row_begin, wb_in_s_row_end + 1):
             list_all_data.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
                                   wb_in_s.cell(row=row, column=wb_in_s_col_2).value,
-                                  wb_in_s.cell(row=row, column=wb_in_s_col_3).value])
+                                  wb_in_s.cell(row=row, column=wb_in_s_col_3).value,
+                                  wb_in_s.cell(row=row, column=wb_in_s_col_4).value,
+                                  wb_in_s.cell(row=row, column=wb_in_s_col_5).value
+                                  ])
         wb_in.close()
 
         # создание отчёта в xlsx и активация рабочего листа
