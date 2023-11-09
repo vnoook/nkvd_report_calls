@@ -197,11 +197,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                         else:
                             dict_persona[val_str[0]][val_str[2]] = dict_persona[val_str[0]][val_str[2]] + 1
 
-
-
-
-
-
                 # заполнение словаря "услуги"
                 if dict_service.get(val_str[0]) is None:
                     dict_service[val_str[0]] = {val_str[3]: 1}
@@ -210,6 +205,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                         dict_service[val_str[0]][val_str[3]] = 1
                     else:
                         dict_service[val_str[0]][val_str[3]] = dict_service[val_str[0]][val_str[3]] + 1
+
                 # заполнение словаря "статус услуги"
                 if dict_status_service.get(val_str[0]) is None:
                     dict_status_service[val_str[0]] = {val_str[4]: 1}
@@ -219,22 +215,20 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                     else:
                         dict_status_service[val_str[0]][val_str[4]] = dict_status_service[val_str[0]][val_str[4]] + 1
 
-
-
-
         # сортировка словарей
         dict_organization = dict(sorted(dict_organization.items()))
         dict_departments = dict(sorted(dict_departments.items()))
         dict_persona = dict(sorted(dict_persona.items()))
         dict_service = dict(sorted(dict_service.items()))
         dict_status_service = dict(sorted(dict_status_service.items()))
-        print(dict_service)
-        print(dict_status_service)
+        # print(dict_service)
+        # print(dict_status_service)
 
         # добавления стиля строк
         style1 = openpyxl.styles.Font(bold=True, size=18)
         style2 = openpyxl.styles.Font(bold=True, size=14)
         style3 = openpyxl.styles.Font(bold=False, size=12)
+        style4 = openpyxl.styles.Font(italic=True, size=12)
 
         row = 1
         col = 1
@@ -259,6 +253,25 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                 wb_out_s.cell(row=row, column=col).font = style3
                 wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
                 row += 1
+
+
+
+
+
+            # print(dict_status_service)
+            if dict_status_service[k_org]:
+                status_string = ''
+                for k_p, v_p in dict_status_service[k_org].items():
+                    # print(k_p, v_p)
+                    status_string = status_string + f'{k_p} - {v_p}' + ', '
+
+                wb_out_s.cell(row=row, column=col).font = style4
+                wb_out_s.cell(row=row, column=col).value = status_string[:-2]
+                row += 1
+
+
+
+
 
             wb_out_s.append([])
             row += 1
