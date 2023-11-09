@@ -197,10 +197,39 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                         else:
                             dict_persona[val_str[0]][val_str[2]] = dict_persona[val_str[0]][val_str[2]] + 1
 
+
+
+
+
+
+                # заполнение словаря "услуги"
+                if dict_service.get(val_str[0]) is None:
+                    dict_service[val_str[0]] = {val_str[3]: 1}
+                else:
+                    if dict_service[val_str[0]].get(val_str[3]) is None:
+                        dict_service[val_str[0]][val_str[3]] = 1
+                    else:
+                        dict_service[val_str[0]][val_str[3]] = dict_service[val_str[0]][val_str[3]] + 1
+                # заполнение словаря "статус услуги"
+                if dict_status_service.get(val_str[0]) is None:
+                    dict_status_service[val_str[0]] = {val_str[4]: 1}
+                else:
+                    if dict_status_service[val_str[0]].get(val_str[4]) is None:
+                        dict_status_service[val_str[0]][val_str[4]] = 1
+                    else:
+                        dict_status_service[val_str[0]][val_str[4]] = dict_status_service[val_str[0]][val_str[4]] + 1
+
+
+
+
         # сортировка словарей
         dict_organization = dict(sorted(dict_organization.items()))
         dict_departments = dict(sorted(dict_departments.items()))
         dict_persona = dict(sorted(dict_persona.items()))
+        dict_service = dict(sorted(dict_service.items()))
+        dict_status_service = dict(sorted(dict_status_service.items()))
+        print(dict_service)
+        print(dict_status_service)
 
         # добавления стиля строк
         style1 = openpyxl.styles.Font(bold=True, size=18)
