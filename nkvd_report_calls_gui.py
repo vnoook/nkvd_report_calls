@@ -141,19 +141,23 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         dict_organization = {}
         # словарь для хранения "кем записан"
         dict_persona = {}
-        # словарь для хранения "услуги"
-        dict_service = {}
+        # # словарь для хранения "услуги"
+        # dict_service = {}
         # словарь для хранения "статуса услуги"
         dict_status_service = {}
 
         # персоны, которые нужно суммировать
-        str_person_summ = {'Интеграция Е.Р.': 'ЕПГУ-Госуслуги',
-                           'Administrator A.A.': 'МИАЦ',
-                           'Система Г.С.': 'СГС-Робот Николай'}
+        str_person_summ = {
+            'Интеграция Е.Р.': 'ЕПГУ-Госуслуги',
+            'Administrator A.A.': 'МИАЦ',
+            'Система Г.С.': 'СГС-Робот Николай'
+        }
         # строки по которым нужно фильтровать
-        str_for_filter = ('Амбулаторное отделение №1', 'Амбулаторное отделение №2',
-                          'Амбулаторное отделение №3', 'Амбулаторное отделение №4',
-                          'Подростковый специализированный центр профилактики и лечения инфекций, передаваемых половым путем')
+        str_for_filter = (
+            'Амбулаторное отделение №1', 'Амбулаторное отделение №2',
+            'Амбулаторное отделение №3', 'Амбулаторное отделение №4',
+            'Подростковый специализированный центр профилактики и лечения инфекций, передаваемых половым путем'
+        )
 
         # получение всех данных из файла и его закрытие, чтобы к нему больше не возвращаться
         for row in range(wb_in_s_row_begin, wb_in_s_row_end + 1):
@@ -197,14 +201,14 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                         else:
                             dict_persona[val_str[0]][val_str[2]] = dict_persona[val_str[0]][val_str[2]] + 1
 
-                # заполнение словаря "услуги"
-                if dict_service.get(val_str[0]) is None:
-                    dict_service[val_str[0]] = {val_str[3]: 1}
-                else:
-                    if dict_service[val_str[0]].get(val_str[3]) is None:
-                        dict_service[val_str[0]][val_str[3]] = 1
-                    else:
-                        dict_service[val_str[0]][val_str[3]] = dict_service[val_str[0]][val_str[3]] + 1
+                # # заполнение словаря "услуги"
+                # if dict_service.get(val_str[0]) is None:
+                #     dict_service[val_str[0]] = {val_str[3]: 1}
+                # else:
+                #     if dict_service[val_str[0]].get(val_str[3]) is None:
+                #         dict_service[val_str[0]][val_str[3]] = 1
+                #     else:
+                #         dict_service[val_str[0]][val_str[3]] = dict_service[val_str[0]][val_str[3]] + 1
 
                 # заполнение словаря "статус услуги"
                 if dict_status_service.get(val_str[0]) is None:
@@ -219,10 +223,8 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         dict_organization = dict(sorted(dict_organization.items()))
         dict_departments = dict(sorted(dict_departments.items()))
         dict_persona = dict(sorted(dict_persona.items()))
-        dict_service = dict(sorted(dict_service.items()))
+        # dict_service = dict(sorted(dict_service.items()))
         dict_status_service = dict(sorted(dict_status_service.items()))
-        # print(dict_service)
-        # print(dict_status_service)
 
         # добавления стиля строк
         style1 = openpyxl.styles.Font(bold=True, size=18)
@@ -235,10 +237,12 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         persona_string = ''
         # формирование отчёта
         for k_org, v_org in dict_organization.items():
+            # добавление первой строки
             wb_out_s.cell(row=row, column=col).font = style1
             wb_out_s.cell(row=row, column=col).value = f'{k_org} - {dict_departments[k_org]} пациент(ов)'
             row += 1
 
+            # добавление второй строки
             if dict_persona[k_org]:
                 dict_persona[k_org] = dict(sorted(dict_persona[k_org].items()))
                 persona_string = ''
@@ -249,30 +253,23 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             wb_out_s.cell(row=row, column=col).value = f'(из них {persona_string[:-2]})'
             row += 1
 
+            # добавление строк по организациям
             for d, q in v_org.items():
                 wb_out_s.cell(row=row, column=col).font = style3
                 wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
                 row += 1
 
-
-
-
-
-            # print(dict_status_service)
+            # добавление строки про "статус услуги"
             if dict_status_service[k_org]:
                 status_string = ''
                 for k_p, v_p in dict_status_service[k_org].items():
-                    # print(k_p, v_p)
                     status_string = status_string + f'{k_p} - {v_p}' + ', '
 
                 wb_out_s.cell(row=row, column=col).font = style4
                 wb_out_s.cell(row=row, column=col).value = status_string[:-2]
                 row += 1
 
-
-
-
-
+            # добавление пустой строки разделения между "отделениями"
             wb_out_s.append([])
             row += 1
 
