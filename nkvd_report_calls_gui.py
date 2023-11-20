@@ -188,18 +188,19 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
     # активация и деактивация объектов на форме зависящее от выбора файла
     def units_activate(self):
         # активация и деактивация объектов на форме зависящее от выбора файла
-        if ((self.text_empty_path_file not in self.label_path_fresh_file.text()) and (self.text_empty_path_file not in self.label_path_old_file.text())):
+        if ((self.text_empty_path_file not in self.label_path_fresh_file.text()) and
+                (self.text_empty_path_file not in self.label_path_old_file.text())):
             self.pushButton_parse_to_xls.setEnabled(True)
 
     # функция создания отчёта
     def parse_xlsx(self):
         # получение пути и имени выбранного файла
-        file_xlsx = self.label_path_fresh_file.text()
-        file_xlsx_path = os.path.split(file_xlsx)[0]
-        file_xlsx_name = os.path.split(file_xlsx)[1]
+        file_xlsx_fresh = self.label_path_fresh_file.text()
+        file_xlsx_path_fresh = os.path.split(file_xlsx_fresh)[0]
+        file_xlsx_name_fresh = os.path.split(file_xlsx_fresh)[1]
 
         # открывается выбранный файл
-        wb_in = openpyxl.load_workbook(file_xlsx)
+        wb_in = openpyxl.load_workbook(file_xlsx_fresh)
         wb_in_s = wb_in['Журнал записей пациентов']
 
         # строка начала и конца
@@ -355,8 +356,8 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             row += 1
 
         # создание названия выходного файла xls
-        file_xls_path = file_xlsx_path[:]
-        file_xls_name = os.path.splitext(file_xlsx_name)[0] + '_отчёт.xlsx'
+        file_xls_path = file_xlsx_path_fresh[:]
+        file_xls_name = os.path.splitext(file_xlsx_name_fresh)[0] + '_отчёт.xlsx'
         file_report = os.path.abspath(os.path.join(file_xls_path, file_xls_name))
 
         # сохранение файла xlsx и закрытие его
