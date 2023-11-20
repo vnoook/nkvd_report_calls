@@ -29,7 +29,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         # главное окно, надпись на нём и размеры
         self.setWindowTitle('Парсер XLSX файлов для отчёта Журнал записей пациентов')
-        self.setGeometry(450, 100, 700, 180)
+        self.setGeometry(450, 100, 700, 350)
         self.setWindowFlags(PyQt5.QtCore.Qt.WindowStaysOnTopHint)
 
         # ОБЪЕКТЫ НА ФОРМЕ
@@ -65,22 +65,42 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         self.label_path_file.adjustSize()
         self.label_path_file.setToolTip(self.label_path_file.objectName())
 
+
+
+
+
+
+
+
+
+
+
+
         # pushButton_parse_to_xls
         self.pushButton_parse_to_xls = PyQt5.QtWidgets.QPushButton(self)
         self.pushButton_parse_to_xls.setObjectName('pushButton_parse_to_xls')
         self.pushButton_parse_to_xls.setEnabled(False)
         self.pushButton_parse_to_xls.setText('Создать отчёт "Журнал записей пациентов"')
-        self.pushButton_parse_to_xls.setGeometry(PyQt5.QtCore.QRect(10, 100, 260, 25))
+        self.pushButton_parse_to_xls.setGeometry(PyQt5.QtCore.QRect(10, 230, 260, 25))
         self.pushButton_parse_to_xls.clicked.connect(self.parse_xlsx)
         self.pushButton_parse_to_xls.setToolTip(self.pushButton_parse_to_xls.objectName())
+
+        # checkBox_short
+        self.checkBox_short = PyQt5.QtWidgets.QCheckBox(self)
+        self.checkBox_short.setObjectName('checkBox_short')
+        self.checkBox_short.setGeometry(PyQt5.QtCore.QRect(10, 260, 200, 40))
+        # self.checkBox_short.clicked.connect()
+        self.checkBox_short.setChecked(True)
+        self.checkBox_short.setText('Хочу короткий отчёт')
+        self.checkBox_short.setToolTip(self.checkBox_short.objectName())
 
         # EXIT
         # button_exit
         self.button_exit = PyQt5.QtWidgets.QPushButton(self)
         self.button_exit.setObjectName('button_exit')
         self.button_exit.setText('Выход')
-        self.button_exit.setGeometry(PyQt5.QtCore.QRect(10, 140, 180, 25))
-        self.button_exit.setFixedWidth(50)
+        self.button_exit.setGeometry(PyQt5.QtCore.QRect(10, 300, 100, 25))
+        # self.button_exit.setFixedWidth(50)
         self.button_exit.clicked.connect(self.click_on_btn_exit)
         self.button_exit.setToolTip(self.button_exit.objectName())
 
