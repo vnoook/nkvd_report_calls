@@ -33,37 +33,39 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         self.setWindowFlags(PyQt5.QtCore.Qt.WindowStaysOnTopHint)
 
         # ОБЪЕКТЫ НА ФОРМЕ
-        # label_select_file
-        self.label_select_file = PyQt5.QtWidgets.QLabel(self)
-        self.label_select_file.setObjectName('label_select_file')
-        self.label_select_file.setText('Выберите файл XLSX')
-        self.label_select_file.setGeometry(PyQt5.QtCore.QRect(10, 10, 150, 40))
+
+        # выбор свежего файла
+        # label_select_file_fresh_data
+        self.label_select_file_fresh_data = PyQt5.QtWidgets.QLabel(self)
+        self.label_select_file_fresh_data.setObjectName('label_select_file_fresh_data')
+        self.label_select_file_fresh_data.setText('1) Выберите свежий файл XLSX')
+        self.label_select_file_fresh_data.setGeometry(PyQt5.QtCore.QRect(10, 10, 150, 40))
         font = PyQt5.QtGui.QFont()
         font.setPointSize(12)
-        self.label_select_file.setFont(font)
-        self.label_select_file.adjustSize()
-        self.label_select_file.setToolTip(self.label_select_file.objectName())
+        self.label_select_file_fresh_data.setFont(font)
+        self.label_select_file_fresh_data.adjustSize()
+        self.label_select_file_fresh_data.setToolTip(self.label_select_file_fresh_data.objectName())
 
-        # toolButton_select_file_xlsx
-        self.toolButton_select_file_xlsx = PyQt5.QtWidgets.QPushButton(self)
-        self.toolButton_select_file_xlsx.setObjectName('toolButton_select_file_xlsx')
-        self.toolButton_select_file_xlsx.setText('...')
-        self.toolButton_select_file_xlsx.setGeometry(PyQt5.QtCore.QRect(10, 40, 50, 20))
-        self.toolButton_select_file_xlsx.setFixedWidth(50)
-        self.toolButton_select_file_xlsx.clicked.connect(self.select_file_xlsx)
-        self.toolButton_select_file_xlsx.setToolTip(self.toolButton_select_file_xlsx.objectName())
+        # toolButton_select_fresh_xlsx
+        self.toolButton_select_fresh_xlsx = PyQt5.QtWidgets.QPushButton(self)
+        self.toolButton_select_fresh_xlsx.setObjectName('toolButton_select_fresh_xlsx')
+        self.toolButton_select_fresh_xlsx.setText('...')
+        self.toolButton_select_fresh_xlsx.setGeometry(PyQt5.QtCore.QRect(10, 40, 50, 20))
+        self.toolButton_select_fresh_xlsx.setFixedWidth(50)
+        self.toolButton_select_fresh_xlsx.clicked.connect(self.select_file_xlsx)
+        self.toolButton_select_fresh_xlsx.setToolTip(self.toolButton_select_fresh_xlsx.objectName())
 
-        # label_path_file
-        self.label_path_file = PyQt5.QtWidgets.QLabel(self)
-        self.label_path_file.setObjectName('label_path_file')
-        self.label_path_file.setEnabled(False)
-        self.label_path_file.setText(self.text_empty_path_file)
-        self.label_path_file.setGeometry(PyQt5.QtCore.QRect(10, 70, 400, 40))
+        # label_path_fresh_file
+        self.label_path_fresh_file = PyQt5.QtWidgets.QLabel(self)
+        self.label_path_fresh_file.setObjectName('label_path_fresh_file')
+        self.label_path_fresh_file.setEnabled(False)
+        self.label_path_fresh_file.setText(self.text_empty_path_file)
+        self.label_path_fresh_file.setGeometry(PyQt5.QtCore.QRect(10, 70, 400, 40))
         font = PyQt5.QtGui.QFont()
         font.setPointSize(12)
-        self.label_path_file.setFont(font)
-        self.label_path_file.adjustSize()
-        self.label_path_file.setToolTip(self.label_path_file.objectName())
+        self.label_path_fresh_file.setFont(font)
+        self.label_path_fresh_file.adjustSize()
+        self.label_path_fresh_file.setToolTip(self.label_path_fresh_file.objectName())
 
 
 
@@ -110,7 +112,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         data_of_open_file_name = None
 
         # запоминание старого значения пути выбора файлов
-        old_path_of_selected_xlsx_file = self.label_path_file.text()
+        old_path_of_selected_xlsx_file = self.label_path_fresh_file.text()
 
         # непосредственное окно выбора файла и переменная для хранения пути файла
         data_of_open_file_name = PyQt5.QtWidgets.QFileDialog.getOpenFileName(self,
@@ -123,21 +125,21 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
         # нажата кнопка выбора XLSX файла
         if file_name == '':
-            self.label_path_file.setText(old_path_of_selected_xlsx_file)
-            self.label_path_file.adjustSize()
+            self.label_path_fresh_file.setText(old_path_of_selected_xlsx_file)
+            self.label_path_fresh_file.adjustSize()
         else:
-            old_path_of_selected_xlsx_file = self.label_path_file.text()
-            self.label_path_file.setText(file_name)
-            self.label_path_file.adjustSize()
+            old_path_of_selected_xlsx_file = self.label_path_fresh_file.text()
+            self.label_path_fresh_file.setText(file_name)
+            self.label_path_fresh_file.adjustSize()
 
         # активация и деактивация объектов на форме зависящее от выбора файла
-        if self.text_empty_path_file not in self.label_path_file.text():
+        if self.text_empty_path_file not in self.label_path_fresh_file.text():
             self.pushButton_parse_to_xls.setEnabled(True)
 
     # функция создания отчёта
     def parse_xlsx(self):
         # получение пути и имени выбранного файла
-        file_xlsx = self.label_path_file.text()
+        file_xlsx = self.label_path_fresh_file.text()
         file_xlsx_path = os.path.split(file_xlsx)[0]
         file_xlsx_name = os.path.split(file_xlsx)[1]
 
