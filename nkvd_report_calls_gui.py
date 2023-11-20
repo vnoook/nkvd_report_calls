@@ -194,28 +194,18 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
     # функция создания отчёта
     def parse_xlsx(self):
-        # получение пути и имени выбранного файла
+        # получение путей и имён выбранных файлов
         file_xlsx_fresh = self.label_path_fresh_file.text()
         file_xlsx_path_fresh = os.path.split(file_xlsx_fresh)[0]
         file_xlsx_name_fresh = os.path.split(file_xlsx_fresh)[1]
 
-        # открывается выбранный файл
-        wb_in = openpyxl.load_workbook(file_xlsx_fresh)
-        wb_in_s = wb_in['Журнал записей пациентов']
-
-        # строка начала и конца
-        wb_in_s_row_begin = 3
-        wb_in_s_row_end = wb_in_s.max_row - 1
-
-        # номера колонок для сбора данных
-        wb_in_s_col_1 = 7   # Отделение
-        wb_in_s_col_2 = 18  # Записавшая организация
-        wb_in_s_col_3 = 19  # Кем записан
-        wb_in_s_col_4 = 9   # Услуга
-        wb_in_s_col_5 = 10  # Статус услуги
+        file_xlsx_old = self.label_path_old_file.text()
+        file_xlsx_path_old = os.path.split(file_xlsx_old)[0]
+        file_xlsx_name_old = os.path.split(file_xlsx_old)[1]
 
         # структуры для сбора данных
-        list_all_data = []
+        list_all_data_fresh = []
+        list_all_data_old = []
 
         # словарь для хранения "отделений"
         dict_departments = {}
@@ -223,8 +213,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         dict_organization = {}
         # словарь для хранения "кем записан"
         dict_persona = {}
-        # # словарь для хранения "услуги"
-        # dict_service = {}
         # словарь для хранения "статуса услуги"
         dict_status_service = {}
 
@@ -241,9 +229,24 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             'Подростковый специализированный центр профилактики и лечения инфекций, передаваемых половым путем'
         )
 
+        # номера колонок для сбора данных
+        wb_in_s_col_1 = 7   # Отделение
+        wb_in_s_col_2 = 18  # Записавшая организация
+        wb_in_s_col_3 = 19  # Кем записан
+        wb_in_s_col_4 = 9   # Услуга
+        wb_in_s_col_5 = 10  # Статус услуги
+
+        # открывается свежий файл
+        wb_in = openpyxl.load_workbook(file_xlsx_fresh)
+        wb_in_s = wb_in['Журнал записей пациентов']
+
+        # строка начала и конца
+        wb_in_s_row_begin = 3
+        wb_in_s_row_end = wb_in_s.max_row - 1
+
         # получение всех данных из файла и его закрытие, чтобы к нему больше не возвращаться
         for row in range(wb_in_s_row_begin, wb_in_s_row_end + 1):
-            list_all_data.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
+            list_all_data_fresh.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
                                   wb_in_s.cell(row=row, column=wb_in_s_col_2).value,
                                   wb_in_s.cell(row=row, column=wb_in_s_col_3).value,
                                   wb_in_s.cell(row=row, column=wb_in_s_col_4).value,
@@ -255,8 +258,35 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         wb_out = openpyxl.Workbook()
         wb_out_s = wb_out.active
 
+        # открывается старый файл
+        wb_in = openpyxl.load_workbook(file_xlsx_old)
+        wb_in_s = wb_in['Журнал записей пациентов']
+
+        # строка начала и конца
+        wb_in_s_row_begin = 3
+        wb_in_s_row_end = wb_in_s.max_row - 1
+
+        # получение всех данных из файла и его закрытие, чтобы к нему больше не возвращаться
+        for row in range(wb_in_s_row_begin, wb_in_s_row_end + 1):
+            list_all_data_old.append([wb_in_s.cell(row=row, column=wb_in_s_col_1).value,
+                                      wb_in_s.cell(row=row, column=wb_in_s_col_2).value,
+                                      wb_in_s.cell(row=row, column=wb_in_s_col_3).value,
+                                      wb_in_s.cell(row=row, column=wb_in_s_col_4).value,
+                                      wb_in_s.cell(row=row, column=wb_in_s_col_5).value
+                                      ])
+        wb_in.close()
+
+        # создание отчёта в xlsx и активация рабочего листа
+        wb_out = openpyxl.Workbook()
+        wb_out_s = wb_out.active
+
+
+
+
+
+
         # подсчёт и распределение
-        for val_str in list_all_data:
+        for val_str in list_all_data_fresh:
             if val_str[0] in str_for_filter:
                 # заполнение словаря отделений
                 if dict_departments.get(val_str[0]) is None:
