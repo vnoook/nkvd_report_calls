@@ -208,13 +208,17 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         list_all_data_old = []
 
         # словарь для хранения "отделений"
-        dict_departments = {}
+        dict_departments_fresh = {}
+        dict_departments_old = {}
         # словарь для хранения "записавших организаций"
-        dict_organization = {}
+        dict_organization_fresh = {}
+        dict_organization_old = {}
         # словарь для хранения "кем записан"
-        dict_persona = {}
+        dict_persona_fresh = {}
+        dict_persona_old = {}
         # словарь для хранения "статуса услуги"
-        dict_status_service = {}
+        dict_status_service_fresh = {}
+        dict_status_service_old = {}
 
         # персоны, которые нужно суммировать
         str_person_summ = {
@@ -293,29 +297,29 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         for val_str in list_all_data_fresh:
             if val_str[0] in str_for_filter:
                 # заполнение словаря отделений
-                if dict_departments.get(val_str[0]) is None:
-                    dict_departments[val_str[0]] = 1
+                if dict_departments_fresh.get(val_str[0]) is None:
+                    dict_departments_fresh[val_str[0]] = 1
                 else:
-                    dict_departments[val_str[0]] = dict_departments[val_str[0]] + 1
+                    dict_departments_fresh[val_str[0]] = dict_departments_fresh[val_str[0]] + 1
 
                 # заполнение словаря записавших организаций
-                if dict_organization.get(val_str[0]) is None:
-                    dict_organization[val_str[0]] = {val_str[1]: 1}
+                if dict_organization_fresh.get(val_str[0]) is None:
+                    dict_organization_fresh[val_str[0]] = {val_str[1]: 1}
                 else:
-                    if dict_organization[val_str[0]].get(val_str[1]) is None:
-                        dict_organization[val_str[0]][val_str[1]] = 1
+                    if dict_organization_fresh[val_str[0]].get(val_str[1]) is None:
+                        dict_organization_fresh[val_str[0]][val_str[1]] = 1
                     else:
-                        dict_organization[val_str[0]][val_str[1]] = dict_organization[val_str[0]][val_str[1]] + 1
+                        dict_organization_fresh[val_str[0]][val_str[1]] = dict_organization_fresh[val_str[0]][val_str[1]] + 1
 
                 # заполнение словаря "кем записан"
                 if val_str[2] in str_person_summ:
-                    if dict_persona.get(val_str[0]) is None:
-                        dict_persona[val_str[0]] = {val_str[2]: 1}
+                    if dict_persona_fresh.get(val_str[0]) is None:
+                        dict_persona_fresh[val_str[0]] = {val_str[2]: 1}
                     else:
-                        if dict_persona[val_str[0]].get(val_str[2]) is None:
-                            dict_persona[val_str[0]][val_str[2]] = 1
+                        if dict_persona_fresh[val_str[0]].get(val_str[2]) is None:
+                            dict_persona_fresh[val_str[0]][val_str[2]] = 1
                         else:
-                            dict_persona[val_str[0]][val_str[2]] = dict_persona[val_str[0]][val_str[2]] + 1
+                            dict_persona_fresh[val_str[0]][val_str[2]] = dict_persona_fresh[val_str[0]][val_str[2]] + 1
 
                 # # заполнение словаря "услуги"
                 # if dict_service.get(val_str[0]) is None:
@@ -327,20 +331,20 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                 #         dict_service[val_str[0]][val_str[3]] = dict_service[val_str[0]][val_str[3]] + 1
 
                 # заполнение словаря "статус услуги"
-                if dict_status_service.get(val_str[0]) is None:
-                    dict_status_service[val_str[0]] = {val_str[4]: 1}
+                if dict_status_service_fresh.get(val_str[0]) is None:
+                    dict_status_service_fresh[val_str[0]] = {val_str[4]: 1}
                 else:
-                    if dict_status_service[val_str[0]].get(val_str[4]) is None:
-                        dict_status_service[val_str[0]][val_str[4]] = 1
+                    if dict_status_service_fresh[val_str[0]].get(val_str[4]) is None:
+                        dict_status_service_fresh[val_str[0]][val_str[4]] = 1
                     else:
-                        dict_status_service[val_str[0]][val_str[4]] = dict_status_service[val_str[0]][val_str[4]] + 1
+                        dict_status_service_fresh[val_str[0]][val_str[4]] = dict_status_service_fresh[val_str[0]][val_str[4]] + 1
 
         # сортировка словарей
-        dict_organization = dict(sorted(dict_organization.items()))
-        dict_departments = dict(sorted(dict_departments.items()))
-        dict_persona = dict(sorted(dict_persona.items()))
+        dict_organization_fresh = dict(sorted(dict_organization_fresh.items()))
+        dict_departments_fresh = dict(sorted(dict_departments_fresh.items()))
+        dict_persona_fresh = dict(sorted(dict_persona_fresh.items()))
         # dict_service = dict(sorted(dict_service.items()))
-        dict_status_service = dict(sorted(dict_status_service.items()))
+        dict_status_service_fresh = dict(sorted(dict_status_service_fresh.items()))
 
         # добавления стиля строк
         style1 = openpyxl.styles.Font(bold=True, size=18)
@@ -352,17 +356,17 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         col = 1
         persona_string = ''
         # формирование отчёта
-        for k_org, v_org in dict_organization.items():
+        for k_org, v_org in dict_organization_fresh.items():
             # добавление первой строки
             wb_out_s.cell(row=row, column=col).font = style1
-            wb_out_s.cell(row=row, column=col).value = f'{k_org} - {dict_departments[k_org]} пациент(ов)'
+            wb_out_s.cell(row=row, column=col).value = f'{k_org} - {dict_departments_fresh[k_org]} пациент(ов)'
             row += 1
 
             # добавление второй строки
-            if dict_persona[k_org]:
-                dict_persona[k_org] = dict(sorted(dict_persona[k_org].items()))
+            if dict_persona_fresh[k_org]:
+                dict_persona_fresh[k_org] = dict(sorted(dict_persona_fresh[k_org].items()))
                 persona_string = ''
-                for k_p, v_p in dict_persona[k_org].items():
+                for k_p, v_p in dict_persona_fresh[k_org].items():
                     persona_string = persona_string + f'{v_p} через {str_person_summ[k_p]}' + ', '
 
             wb_out_s.cell(row=row, column=col).font = style2
@@ -376,9 +380,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                 row += 1
 
             # добавление строки про "статус услуги"
-            if dict_status_service[k_org]:
+            if dict_status_service_fresh[k_org]:
                 status_string = ''
-                for k_p, v_p in dict_status_service[k_org].items():
+                for k_p, v_p in dict_status_service_fresh[k_org].items():
                     status_string = status_string + f'{k_p} - {v_p}' + ', '
 
                 wb_out_s.cell(row=row, column=col).font = style4
