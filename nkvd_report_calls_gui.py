@@ -289,11 +289,11 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # print()
         print(f'{self.checkBox_short.isEnabled() = }')
 
-        # создание отчёта в xlsx и активация рабочего листа
+        # создание нового отчёта в xlsx и активация рабочего листа
         wb_out = openpyxl.Workbook()
         wb_out_s = wb_out.active
 
-        # подсчёт и распределение
+        # подсчёт и распределение свежих данных
         for val_str in list_all_data_fresh:
             if val_str[0] in str_for_filter:
                 # заполнение словаря отделений
@@ -339,12 +339,91 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                     else:
                         dict_status_service_fresh[val_str[0]][val_str[4]] = dict_status_service_fresh[val_str[0]][val_str[4]] + 1
 
-        # сортировка словарей
+
+
+
+
+
+        # подсчёт и распределение старых данных
+        for val_str in list_all_data_old:
+            if val_str[0] in str_for_filter:
+                # заполнение словаря отделений
+                if dict_departments_old.get(val_str[0]) is None:
+                    dict_departments_old[val_str[0]] = 1
+                else:
+                    dict_departments_old[val_str[0]] = dict_departments_old[val_str[0]] + 1
+
+                # заполнение словаря записавших организаций
+                if dict_organization_old.get(val_str[0]) is None:
+                    dict_organization_old[val_str[0]] = {val_str[1]: 1}
+                else:
+                    if dict_organization_old[val_str[0]].get(val_str[1]) is None:
+                        dict_organization_old[val_str[0]][val_str[1]] = 1
+                    else:
+                        dict_organization_old[val_str[0]][val_str[1]] = dict_organization_old[val_str[0]][val_str[1]] + 1
+
+                # заполнение словаря "кем записан"
+                if val_str[2] in str_person_summ:
+                    if dict_persona_old.get(val_str[0]) is None:
+                        dict_persona_old[val_str[0]] = {val_str[2]: 1}
+                    else:
+                        if dict_persona_old[val_str[0]].get(val_str[2]) is None:
+                            dict_persona_old[val_str[0]][val_str[2]] = 1
+                        else:
+                            dict_persona_old[val_str[0]][val_str[2]] = dict_persona_old[val_str[0]][val_str[2]] + 1
+
+                # # заполнение словаря "услуги"
+                # if dict_service.get(val_str[0]) is None:
+                #     dict_service[val_str[0]] = {val_str[3]: 1}
+                # else:
+                #     if dict_service[val_str[0]].get(val_str[3]) is None:
+                #         dict_service[val_str[0]][val_str[3]] = 1
+                #     else:
+                #         dict_service[val_str[0]][val_str[3]] = dict_service[val_str[0]][val_str[3]] + 1
+
+                # заполнение словаря "статус услуги"
+                if dict_status_service_old.get(val_str[0]) is None:
+                    dict_status_service_old[val_str[0]] = {val_str[4]: 1}
+                else:
+                    if dict_status_service_old[val_str[0]].get(val_str[4]) is None:
+                        dict_status_service_old[val_str[0]][val_str[4]] = 1
+                    else:
+                        dict_status_service_old[val_str[0]][val_str[4]] = dict_status_service_old[val_str[0]][val_str[4]] + 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # сортировка словарей свежих
         dict_organization_fresh = dict(sorted(dict_organization_fresh.items()))
         dict_departments_fresh = dict(sorted(dict_departments_fresh.items()))
         dict_persona_fresh = dict(sorted(dict_persona_fresh.items()))
         # dict_service = dict(sorted(dict_service.items()))
         dict_status_service_fresh = dict(sorted(dict_status_service_fresh.items()))
+
+        # сортировка словарей старых
+        dict_organization_old = dict(sorted(dict_organization_old.items()))
+        dict_departments_old = dict(sorted(dict_departments_old.items()))
+        dict_persona_old = dict(sorted(dict_persona_old.items()))
+        # dict_service = dict(sorted(dict_service.items()))
+        dict_status_service_old = dict(sorted(dict_status_service_old.items()))
+
 
         # добавления стиля строк
         style1 = openpyxl.styles.Font(bold=True, size=18)
