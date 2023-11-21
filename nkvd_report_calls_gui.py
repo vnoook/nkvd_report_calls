@@ -219,13 +219,15 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # персоны, которые нужно суммировать
         str_person_summ = {
             'Интеграция Е.Р.': 'ЕПГУ-Госуслуги',
-            'Administrator A.A.': 'МИАЦ',
-            'Система Г.С.': 'СГС-Робот Николай'
+            'Система Г.С.': 'СГС-Робот Николай',
+            'Administrator A.A.': 'МИАЦ'
         }
         # строки по которым нужно фильтровать
         str_for_filter = (
-            'Амбулаторное отделение №1', 'Амбулаторное отделение №2',
-            'Амбулаторное отделение №3', 'Амбулаторное отделение №4',
+            'Амбулаторное отделение №1',
+            'Амбулаторное отделение №2',
+            'Амбулаторное отделение №3',
+            'Амбулаторное отделение №4',
             'Подростковый специализированный центр профилактики и лечения инфекций, передаваемых половым путем'
         )
 
@@ -276,14 +278,16 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                                       ])
         wb_in.close()
 
+        # print()
+        # print(*list_all_data_old)
+        # print()
+        # print(*list_all_data_fresh)
+        # print()
+        print(f'{self.checkBox_short.isEnabled() = }')
+
         # создание отчёта в xlsx и активация рабочего листа
         wb_out = openpyxl.Workbook()
         wb_out_s = wb_out.active
-
-
-
-
-
 
         # подсчёт и распределение
         for val_str in list_all_data_fresh:
