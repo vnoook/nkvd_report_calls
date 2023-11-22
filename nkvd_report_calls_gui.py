@@ -422,14 +422,12 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             row += 1
 
             # добавление второй строки
-            # print(dict_persona_fresh[k_org])
-            # print(k_org)
-            # print()
             if dict_persona_fresh[k_org]:
-                dict_persona_fresh[k_org] = dict(sorted(dict_persona_fresh[k_org].items()))
                 persona_string = ''
-                for k_p, v_p in dict_persona_fresh[k_org].items():
-                    persona_string = persona_string + f'{v_p} через {str_person_summ[k_p]}' + ', '
+                for str_person in str_person_summ:
+                    if dict_persona_fresh[k_org].get(str_person):  # is not None
+                        persona_string = persona_string + (f'{dict_persona_fresh[k_org].get(str_person)}'
+                                                           f' через {str_person_summ[str_person]}') + ', '
 
             wb_out_s.cell(row=row, column=col).font = style2
             wb_out_s.cell(row=row, column=col).value = f'(из них {persona_string[:-2]})'
@@ -438,13 +436,17 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             # добавление строк по организациям
             if self.checkBox_short.isChecked():
                 # короткий отчёт
+                q_sum = 0
                 for d, q in v_org.items():
                     if d == 'ГБУЗ НСО «НОККВД»':
                         wb_out_s.cell(row=row, column=col).font = style3
                         wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
                         row += 1
                     else:
-                        pass
+                        q_sum = q_sum + int(q)
+                wb_out_s.cell(row=row, column=col).font = style3
+                wb_out_s.cell(row=row, column=col).value = f'другие - {q_sum}'
+                row += 1
             else:
                 # длиный отчёт
                 for d, q in v_org.items():
