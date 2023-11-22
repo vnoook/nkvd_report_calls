@@ -129,7 +129,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
     # событие - нажатие на чекбокс выбора размера отчёта
     def checkBox_click(self):
-        print(self.checkBox_short.isChecked())
+        # print(self.checkBox_short.isChecked())
         pass
 
     # событие - нажатие на кнопку выбора файла
@@ -422,9 +422,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             row += 1
 
             # добавление второй строки
-            print(dict_persona_fresh[k_org])
-            print(k_org)
-            print()
+            # print(dict_persona_fresh[k_org])
+            # print(k_org)
+            # print()
             if dict_persona_fresh[k_org]:
                 dict_persona_fresh[k_org] = dict(sorted(dict_persona_fresh[k_org].items()))
                 persona_string = ''
@@ -437,12 +437,17 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
             # добавление строк по организациям
             if self.checkBox_short.isChecked():
-                print(111)
-            else:
+                # короткий отчёт
                 for d, q in v_org.items():
-                    print('-----')
-                    print(d, q)
-                    print('-----')
+                    if d == 'ГБУЗ НСО «НОККВД»':
+                        wb_out_s.cell(row=row, column=col).font = style3
+                        wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
+                        row += 1
+                    else:
+                        pass
+            else:
+                # длиный отчёт
+                for d, q in v_org.items():
                     wb_out_s.cell(row=row, column=col).font = style3
                     wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
                     row += 1
