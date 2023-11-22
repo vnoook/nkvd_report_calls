@@ -99,23 +99,23 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         self.label_path_old_file.adjustSize()
         self.label_path_old_file.setToolTip(self.label_path_old_file.objectName())
 
+        # checkBox_short
+        self.checkBox_short = PyQt5.QtWidgets.QCheckBox(self)
+        self.checkBox_short.setObjectName('checkBox_short')
+        self.checkBox_short.setGeometry(PyQt5.QtCore.QRect(10, 190, 200, 40))
+        self.checkBox_short.clicked.connect(self.checkBox_click)
+        self.checkBox_short.setChecked(True)
+        self.checkBox_short.setText('Хочу короткий отчёт')
+        self.checkBox_short.setToolTip(self.checkBox_short.objectName())
+
         # pushButton_parse_to_xls
         self.pushButton_parse_to_xls = PyQt5.QtWidgets.QPushButton(self)
         self.pushButton_parse_to_xls.setObjectName('pushButton_parse_to_xls')
         self.pushButton_parse_to_xls.setEnabled(False)
         self.pushButton_parse_to_xls.setText('Создать отчёт "Журнал записей пациентов"')
-        self.pushButton_parse_to_xls.setGeometry(PyQt5.QtCore.QRect(10, 230, 260, 25))
+        self.pushButton_parse_to_xls.setGeometry(PyQt5.QtCore.QRect(10, 220, 260, 25))
         self.pushButton_parse_to_xls.clicked.connect(self.parse_xlsx)
         self.pushButton_parse_to_xls.setToolTip(self.pushButton_parse_to_xls.objectName())
-
-        # checkBox_short
-        self.checkBox_short = PyQt5.QtWidgets.QCheckBox(self)
-        self.checkBox_short.setObjectName('checkBox_short')
-        self.checkBox_short.setGeometry(PyQt5.QtCore.QRect(10, 260, 200, 40))
-        # self.checkBox_short.clicked.connect()
-        self.checkBox_short.setChecked(True)
-        self.checkBox_short.setText('Хочу короткий отчёт')
-        self.checkBox_short.setToolTip(self.checkBox_short.objectName())
 
         # EXIT
         # button_exit
@@ -126,6 +126,11 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # self.button_exit.setFixedWidth(50)
         self.button_exit.clicked.connect(self.click_on_btn_exit)
         self.button_exit.setToolTip(self.button_exit.objectName())
+
+    # событие - нажатие на чекбокс выбора размера отчёта
+    def checkBox_click(self):
+        print(self.checkBox_short.isChecked())
+        pass
 
     # событие - нажатие на кнопку выбора файла
     def select_file_fresh_xlsx(self):
@@ -417,6 +422,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             row += 1
 
             # добавление второй строки
+            print(dict_persona_fresh[k_org])
+            print(k_org)
+            print()
             if dict_persona_fresh[k_org]:
                 dict_persona_fresh[k_org] = dict(sorted(dict_persona_fresh[k_org].items()))
                 persona_string = ''
@@ -428,10 +436,16 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             row += 1
 
             # добавление строк по организациям
-            for d, q in v_org.items():
-                wb_out_s.cell(row=row, column=col).font = style3
-                wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
-                row += 1
+            if self.checkBox_short.isChecked():
+                print(111)
+            else:
+                for d, q in v_org.items():
+                    print('-----')
+                    print(d, q)
+                    print('-----')
+                    wb_out_s.cell(row=row, column=col).font = style3
+                    wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
+                    row += 1
 
             # добавление строки про "статус услуги"
             if dict_status_service_fresh[k_org]:
