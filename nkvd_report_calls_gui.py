@@ -1,5 +1,4 @@
 # TODO
-# сделать подсчёт других отделений в одну строку
 # сделать сравнение с прошлой неделей
 
 import os
@@ -103,7 +102,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         self.checkBox_short = PyQt5.QtWidgets.QCheckBox(self)
         self.checkBox_short.setObjectName('checkBox_short')
         self.checkBox_short.setGeometry(PyQt5.QtCore.QRect(10, 190, 200, 40))
-        self.checkBox_short.clicked.connect(self.checkBox_click)
+        self.checkBox_short.clicked.connect(self.checkbox_click)
         self.checkBox_short.setChecked(True)
         self.checkBox_short.setText('Хочу короткий отчёт')
         self.checkBox_short.setToolTip(self.checkBox_short.objectName())
@@ -113,7 +112,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         self.pushButton_parse_to_xls.setObjectName('pushButton_parse_to_xls')
         self.pushButton_parse_to_xls.setEnabled(False)
         self.pushButton_parse_to_xls.setText('Создать отчёт "Журнал записей пациентов"')
-        self.pushButton_parse_to_xls.setGeometry(PyQt5.QtCore.QRect(10, 220, 260, 25))
+        self.pushButton_parse_to_xls.setGeometry(PyQt5.QtCore.QRect(10, 230, 260, 25))
         self.pushButton_parse_to_xls.clicked.connect(self.parse_xlsx)
         self.pushButton_parse_to_xls.setToolTip(self.pushButton_parse_to_xls.objectName())
 
@@ -128,7 +127,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         self.button_exit.setToolTip(self.button_exit.objectName())
 
     # событие - нажатие на чекбокс выбора размера отчёта
-    def checkBox_click(self):
+    def checkbox_click(self):
         # print(self.checkBox_short.isChecked())
         pass
 
@@ -448,7 +447,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                 wb_out_s.cell(row=row, column=col).value = f'другие - {q_sum}'
                 row += 1
             else:
-                # длиный отчёт
+                # длинный отчёт
                 for d, q in v_org.items():
                     wb_out_s.cell(row=row, column=col).font = style3
                     wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
