@@ -413,7 +413,8 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         row = 1
         col = 1
         persona_string = ''
-        # формирование отчёта
+
+        # формирование текущего периода
         for k_org, v_org in dict_organization_fresh.items():
             # добавление первой строки
             wb_out_s.cell(row=row, column=col).font = style1
@@ -457,6 +458,60 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             if dict_status_service_fresh[k_org]:
                 status_string = ''
                 for k_p, v_p in dict_status_service_fresh[k_org].items():
+                    status_string = status_string + f'{k_p} - {v_p}' + ', '
+
+                wb_out_s.cell(row=row, column=col).font = style4
+                wb_out_s.cell(row=row, column=col).value = status_string[:-2]
+                row += 1
+
+            # добавление пустой строки разделения между "отделениями"
+            wb_out_s.append([])
+            row += 1
+
+        # формирование прошлого периода
+        for k_org, v_org in dict_organization_old.items():
+            # добавление первой строки
+            wb_out_s.cell(row=row, column=col).font = style1
+            wb_out_s.cell(row=row, column=col).value = f'{k_org} - {dict_departments_old[k_org]} пациент(ов)'
+            row += 1
+
+            # добавление второй строки
+            if dict_persona_old[k_org]:
+                persona_string = ''
+                for str_person in str_person_summ:
+                    if dict_persona_old[k_org].get(str_person):  # is not None
+                        persona_string = persona_string + (f'{dict_persona_old[k_org].get(str_person)}'
+                                                           f' через {str_person_summ[str_person]}') + ', '
+
+            wb_out_s.cell(row=row, column=col).font = style2
+            wb_out_s.cell(row=row, column=col).value = f'(из них {persona_string[:-2]})'
+            row += 1
+
+            # добавление строк по организациям
+            if self.checkBox_short.isChecked():
+                # короткий отчёт
+                q_sum = 0
+                for d, q in v_org.items():
+                    if d == 'ГБУЗ НСО «НОККВД»':
+                        wb_out_s.cell(row=row, column=col).font = style3
+                        wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
+                        row += 1
+                    else:
+                        q_sum = q_sum + int(q)
+                wb_out_s.cell(row=row, column=col).font = style3
+                wb_out_s.cell(row=row, column=col).value = f'другие - {q_sum}'
+                row += 1
+            else:
+                # длинный отчёт
+                for d, q in v_org.items():
+                    wb_out_s.cell(row=row, column=col).font = style3
+                    wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
+                    row += 1
+
+            # добавление строки про "статус услуги"
+            if dict_status_service_old[k_org]:
+                status_string = ''
+                for k_p, v_p in dict_status_service_old[k_org].items():
                     status_string = status_string + f'{k_p} - {v_p}' + ', '
 
                 wb_out_s.cell(row=row, column=col).font = style4
