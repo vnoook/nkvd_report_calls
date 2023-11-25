@@ -414,7 +414,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         col = 1
         persona_string = ''
 
-        # формирование текущего периода
+        # формирование отчёта
         for k_org, v_org in dict_organization_fresh.items():
             # добавление первой строки
             wb_out_s.cell(row=row, column=col).font = style1
@@ -445,7 +445,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                     else:
                         q_sum = q_sum + int(q)
                 wb_out_s.cell(row=row, column=col).font = style3
-                wb_out_s.cell(row=row, column=col).value = f'другие - {q_sum}'
+                wb_out_s.cell(row=row, column=col).value = f'Другие МО - {q_sum}'
                 row += 1
             else:
                 # длинный отчёт
@@ -466,13 +466,12 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
             # добавление пустой строки разделения между "отделениями"
             wb_out_s.append([])
-            row += 1
+            # row += 1
 
-        # формирование прошлого периода
-        for k_org, v_org in dict_organization_old.items():
+            # формирование предыдущего периода
             # добавление первой строки
-            wb_out_s.cell(row=row, column=col).font = style1
-            wb_out_s.cell(row=row, column=col).value = f'{k_org} - {dict_departments_old[k_org]} пациент(ов)'
+            # wb_out_s.cell(row=row, column=col).font = style1
+            wb_out_s.cell(row=row, column=col).value = f'Предыдущая неделя - {dict_departments_old[k_org]} пациент(ов)'
             row += 1
 
             # добавление второй строки
@@ -483,7 +482,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                         persona_string = persona_string + (f'{dict_persona_old[k_org].get(str_person)}'
                                                            f' через {str_person_summ[str_person]}') + ', '
 
-            wb_out_s.cell(row=row, column=col).font = style2
+            # wb_out_s.cell(row=row, column=col).font = style2
             wb_out_s.cell(row=row, column=col).value = f'(из них {persona_string[:-2]})'
             row += 1
 
@@ -493,13 +492,14 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                 q_sum = 0
                 for d, q in v_org.items():
                     if d == 'ГБУЗ НСО «НОККВД»':
-                        wb_out_s.cell(row=row, column=col).font = style3
-                        wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
-                        row += 1
+                        pass
+                        # wb_out_s.cell(row=row, column=col).font = style3
+                        # wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
+                        # row += 1
                     else:
                         q_sum = q_sum + int(q)
                 wb_out_s.cell(row=row, column=col).font = style3
-                wb_out_s.cell(row=row, column=col).value = f'другие - {q_sum}'
+                wb_out_s.cell(row=row, column=col).value = f'Другие МО - {q_sum}'
                 row += 1
             else:
                 # длинный отчёт
@@ -508,15 +508,15 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                     wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
                     row += 1
 
-            # добавление строки про "статус услуги"
-            if dict_status_service_old[k_org]:
-                status_string = ''
-                for k_p, v_p in dict_status_service_old[k_org].items():
-                    status_string = status_string + f'{k_p} - {v_p}' + ', '
-
-                wb_out_s.cell(row=row, column=col).font = style4
-                wb_out_s.cell(row=row, column=col).value = status_string[:-2]
-                row += 1
+            # # добавление строки про "статус услуги"
+            # if dict_status_service_old[k_org]:
+            #     status_string = ''
+            #     for k_p, v_p in dict_status_service_old[k_org].items():
+            #         status_string = status_string + f'{k_p} - {v_p}' + ', '
+            #
+            #     wb_out_s.cell(row=row, column=col).font = style4
+            #     wb_out_s.cell(row=row, column=col).value = status_string[:-2]
+            #     row += 1
 
             # добавление пустой строки разделения между "отделениями"
             wb_out_s.append([])
