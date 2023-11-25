@@ -1,6 +1,3 @@
-# TODO
-# сделать сравнение с прошлой неделей
-
 import os
 import sys
 import openpyxl
@@ -318,15 +315,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                                 dict_persona_fresh[val_str[0]][val_str[2]] = \
                                     dict_persona_fresh[val_str[0]][val_str[2]] + 1
 
-                # # заполнение словаря "услуги"
-                # if dict_service.get(val_str[0]) is None:
-                #     dict_service[val_str[0]] = {val_str[3]: 1}
-                # else:
-                #     if dict_service[val_str[0]].get(val_str[3]) is None:
-                #         dict_service[val_str[0]][val_str[3]] = 1
-                #     else:
-                #         dict_service[val_str[0]][val_str[3]] = dict_service[val_str[0]][val_str[3]] + 1
-
                 # заполнение словаря "статус услуги"
                 if dict_status_service_fresh.get(val_str[0]) is None:
                     dict_status_service_fresh[val_str[0]] = {val_str[4]: 1}
@@ -369,15 +357,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                             else:
                                 dict_persona_old[val_str[0]][val_str[2]] = \
                                     dict_persona_old[val_str[0]][val_str[2]] + 1
-
-                # # заполнение словаря "услуги"
-                # if dict_service.get(val_str[0]) is None:
-                #     dict_service[val_str[0]] = {val_str[3]: 1}
-                # else:
-                #     if dict_service[val_str[0]].get(val_str[3]) is None:
-                #         dict_service[val_str[0]][val_str[3]] = 1
-                #     else:
-                #         dict_service[val_str[0]][val_str[3]] = dict_service[val_str[0]][val_str[3]] + 1
 
                 # заполнение словаря "статус услуги"
                 if dict_status_service_old.get(val_str[0]) is None:
@@ -466,11 +445,9 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
             # добавление пустой строки разделения между "отделениями"
             wb_out_s.append([])
-            # row += 1
 
             # формирование предыдущего периода
             # добавление первой строки
-            # wb_out_s.cell(row=row, column=col).font = style1
             wb_out_s.cell(row=row, column=col).value = f'Предыдущая неделя - {dict_departments_old[k_org]} пациент(ов)'
             row += 1
 
@@ -482,7 +459,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                         persona_string = persona_string + (f'{dict_persona_old[k_org].get(str_person)}'
                                                            f' через {str_person_summ[str_person]}') + ', '
 
-            # wb_out_s.cell(row=row, column=col).font = style2
             wb_out_s.cell(row=row, column=col).value = f'(из них {persona_string[:-2]})'
             row += 1
 
@@ -493,9 +469,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                 for d, q in v_org.items():
                     if d == 'ГБУЗ НСО «НОККВД»':
                         pass
-                        # wb_out_s.cell(row=row, column=col).font = style3
-                        # wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
-                        # row += 1
                     else:
                         q_sum = q_sum + int(q)
                 wb_out_s.cell(row=row, column=col).font = style3
@@ -507,16 +480,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                     wb_out_s.cell(row=row, column=col).font = style3
                     wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
                     row += 1
-
-            # # добавление строки про "статус услуги"
-            # if dict_status_service_old[k_org]:
-            #     status_string = ''
-            #     for k_p, v_p in dict_status_service_old[k_org].items():
-            #         status_string = status_string + f'{k_p} - {v_p}' + ', '
-            #
-            #     wb_out_s.cell(row=row, column=col).font = style4
-            #     wb_out_s.cell(row=row, column=col).value = status_string[:-2]
-            #     row += 1
 
             # добавление пустой строки разделения между "отделениями"
             wb_out_s.append([])
