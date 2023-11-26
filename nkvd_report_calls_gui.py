@@ -462,25 +462,6 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             wb_out_s.cell(row=row, column=col).value = f'(из них {persona_string[:-2]})'
             row += 1
 
-            # # добавление строк по организациям
-            # if self.checkBox_short.isChecked():
-            #     # короткий отчёт
-            #     q_sum = 0
-            #     for d, q in v_org.items():
-            #         if d == 'ГБУЗ НСО «НОККВД»':
-            #             pass
-            #         else:
-            #             q_sum = q_sum + int(q)
-            #     wb_out_s.cell(row=row, column=col).font = style3
-            #     wb_out_s.cell(row=row, column=col).value = f'Другие МО - {q_sum}'
-            #     row += 1
-            # else:
-            #     # длинный отчёт
-            #     for d, q in v_org.items():
-            #         wb_out_s.cell(row=row, column=col).font = style3
-            #         wb_out_s.cell(row=row, column=col).value = f'{d} - {q}'
-            #         row += 1
-
             # добавление пустой строки разделения между "отделениями"
             wb_out_s.append([])
             row += 1
