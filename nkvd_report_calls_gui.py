@@ -401,6 +401,8 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         wb_out_s.cell(row=row, column=col).font = style1
         wb_out_s.cell(row=row, column=col).value = f'(данные за неделю __)'
         row += 1
+        wb_out_s.cell(row=row, column=col).font = style3
+        wb_out_s.cell(row=row, column=col).value = f''
         row += 1
 
         # формирование отчёта
@@ -458,6 +460,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
             # формирование предыдущего периода
             # добавление первой строки
+            wb_out_s.cell(row=row, column=col).font = style3
             wb_out_s.cell(row=row, column=col).value = f'Предыдущая неделя - {dict_departments_old[k_org]} пациент(ов)'
             row += 1
 
@@ -469,11 +472,14 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
                         persona_string = persona_string + (f'{dict_persona_old[k_org].get(str_person)}'
                                                            f' через {str_person_summ[str_person]}') + ', '
 
+            wb_out_s.cell(row=row, column=col).font = style3
             wb_out_s.cell(row=row, column=col).value = f'(из них {persona_string[:-2]})'
             row += 1
 
             # добавление пустой строки разделения между "отделениями"
             wb_out_s.append([])
+            wb_out_s.cell(row=row, column=col).font = style3
+            wb_out_s.cell(row=row, column=col).value = f''
             row += 1
 
         # создание названия выходного файла xls
