@@ -384,14 +384,24 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         dict_status_service_old = dict(sorted(dict_status_service_old.items()))
 
         # добавления стиля строк
-        style1 = openpyxl.styles.Font(bold=True, size=18)
-        style2 = openpyxl.styles.Font(bold=True, size=14)
+        style0 = openpyxl.styles.Font(bold=True, size=20)
+        style1 = openpyxl.styles.Font(bold=True, size=14)
+        style2 = openpyxl.styles.Font(bold=True, size=12)
         style3 = openpyxl.styles.Font(bold=False, size=12)
         style4 = openpyxl.styles.Font(italic=True, size=12)
 
         row = 1
         col = 1
         persona_string = ''
+
+        # добавление шапки
+        wb_out_s.cell(row=row, column=col).font = style0
+        wb_out_s.cell(row=row, column=col).value = f'Журнал записей пациентов'
+        row += 1
+        wb_out_s.cell(row=row, column=col).font = style1
+        wb_out_s.cell(row=row, column=col).value = f'(данные за неделю __)'
+        row += 1
+        row += 1
 
         # формирование отчёта
         for k_org, v_org in dict_organization_fresh.items():
