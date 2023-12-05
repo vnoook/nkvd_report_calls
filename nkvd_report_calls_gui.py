@@ -414,6 +414,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         # формирование отчёта
         for k_org, v_org in dict_organization_fresh.items():
             # добавление первой строки
+            wb_out_s.cell(row=row, column=col).alignment = openpyxl.styles.Alignment(wrap_text=True)
             wb_out_s.cell(row=row, column=col).font = style1
             wb_out_s.cell(row=row, column=col).value = f'{k_org} - {dict_departments_fresh[k_org]} пациент(ов)'
             row += 1
