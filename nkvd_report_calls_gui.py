@@ -3,6 +3,7 @@ import sys
 import openpyxl
 import openpyxl.utils
 import openpyxl.styles
+import openpyxl.styles.borders
 import PyQt5
 import PyQt5.QtWidgets
 import PyQt5.QtCore
@@ -394,10 +395,15 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         col = 1
         persona_string = ''
 
+        # установка ширины колонки
+        wb_out_s.column_dimensions[openpyxl.utils.get_column_letter(col)].width = 85
+
         # добавление шапки
+        wb_out_s.cell(row=row, column=col).alignment = openpyxl.styles.Alignment(horizontal='center')
         wb_out_s.cell(row=row, column=col).font = style0
         wb_out_s.cell(row=row, column=col).value = f'Журнал записей пациентов'
         row += 1
+        wb_out_s.cell(row=row, column=col).alignment = openpyxl.styles.Alignment(horizontal='center')
         wb_out_s.cell(row=row, column=col).font = style1
         wb_out_s.cell(row=row, column=col).value = f'(данные за неделю __)'
         row += 1
@@ -460,6 +466,8 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
 
             # формирование предыдущего периода
             # добавление первой строки
+            thin_border = openpyxl.styles.borders.Border(top=openpyxl.styles.borders.Side(style='thin'))
+            wb_out_s.cell(row=row, column=col).border = thin_border
             wb_out_s.cell(row=row, column=col).font = style3
             wb_out_s.cell(row=row, column=col).value = f'Предыдущая неделя - {dict_departments_old[k_org]} пациент(ов)'
             row += 1
