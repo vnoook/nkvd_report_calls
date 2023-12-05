@@ -3,7 +3,6 @@ import sys
 import openpyxl
 import openpyxl.utils
 import openpyxl.styles
-import openpyxl.styles.borders
 import PyQt5
 import PyQt5.QtWidgets
 import PyQt5.QtCore
@@ -374,14 +373,12 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
         dict_organization_fresh = dict(sorted(dict_organization_fresh.items()))
         dict_departments_fresh = dict(sorted(dict_departments_fresh.items()))
         dict_persona_fresh = dict(sorted(dict_persona_fresh.items()))
-        # dict_service = dict(sorted(dict_service.items()))
         dict_status_service_fresh = dict(sorted(dict_status_service_fresh.items()))
 
         # сортировка словарей старых
         dict_organization_old = dict(sorted(dict_organization_old.items()))
         dict_departments_old = dict(sorted(dict_departments_old.items()))
         dict_persona_old = dict(sorted(dict_persona_old.items()))
-        # dict_service = dict(sorted(dict_service.items()))
         dict_status_service_old = dict(sorted(dict_status_service_old.items()))
 
         # добавления стиля строк
@@ -423,7 +420,7 @@ class WindowMain(PyQt5.QtWidgets.QMainWindow):
             if dict_persona_fresh[k_org]:
                 persona_string = ''
                 for str_person in str_person_summ:
-                    if dict_persona_fresh[k_org].get(str_person):  # is not None
+                    if dict_persona_fresh[k_org].get(str_person):
                         persona_string = persona_string + (f'{dict_persona_fresh[k_org].get(str_person)}'
                                                            f' через {str_person_summ[str_person]}') + ', '
 
